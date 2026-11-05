@@ -1,0 +1,1042 @@
+<!DOCTYPE html>
+<html lang="fr" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hybrid Fighter Arena - Crée ton Combattant Ultime</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        cyber: {
+                            dark: '#0a0b10',
+                            card: '#121520',
+                            border: '#1f293d',
+                            neon: '#00f0ff',
+                            purple: '#b000ff',
+                            pink: '#ff0055',
+                            yellow: '#ffe600'
+                        }
+                    },
+                    boxShadow: {
+                        'neon': '0 0 15px rgba(0, 240, 255, 0.4)',
+                        'neon-pink': '0 0 15px rgba(255, 0, 85, 0.4)',
+                        'neon-purple': '0 0 15px rgba(176, 0, 255, 0.4)',
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- FontAwesome pour les icones -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;800;900&family=Inter:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0a0b10;
+            color: #f3f4f6;
+        }
+        h1, h2, h3, .font-orbitron {
+            font-family: 'Orbitron', sans-serif;
+        }
+        .cyber-grid {
+            background-image: linear-gradient(to right, rgba(31, 41, 61, 0.15) 1px, transparent 1px),
+                              linear-gradient(to bottom, rgba(31, 41, 61, 0.15) 1px, transparent 1px);
+            background-size: 24px 24px;
+        }
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0a0b10;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #1f293d;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #00f0ff;
+        }
+    </style>
+</head>
+<body class="cyber-grid min-h-screen flex flex-col selection:bg-cyber-neon selection:text-black">
+
+    <!-- HEADER -->
+    <header class="border-b border-cyber-border bg-cyber-dark/80 backdrop-blur-md sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 py-4 flex flex-col sm:flex-row justify-between items-center gap-4">
+            <div class="flex items-center space-x-3 cursor-pointer" onclick="switchView('home')">
+                <div class="w-10 h-10 rounded-lg bg-gradient-to-br from-cyber-neon to-cyber-purple flex items-center justify-center shadow-neon">
+                    <i class="fa-solid fa-gamepad text-black text-xl font-bold"></i>
+                </div>
+                <div>
+                    <h1 class="text-xl font-black tracking-wider text-transparent bg-clip-text bg-gradient-to-r from-cyber-neon via-white to-cyber-pink">HYBRID FIGHTER</h1>
+                    <p class="text-xs text-gray-400 font-orbitron tracking-widest">ARENA GENESIS</p>
+                </div>
+            </div>
+            <nav class="flex items-center space-x-2 sm:space-x-4">
+                <button onclick="switchView('home')" class="px-4 py-2 rounded-lg text-sm font-semibold transition hover:bg-cyber-border text-gray-300 hover:text-cyber-neon">
+                    <i class="fa-solid fa-house mr-2"></i>Accueil
+                </button>
+                <button onclick="switchView('studio')" class="px-4 py-2 rounded-lg text-sm font-semibold transition bg-cyber-neon/10 border border-cyber-neon/30 text-cyber-neon hover:bg-cyber-neon/20 shadow-neon">
+                    <i class="fa-solid fa-wand-magic-sparkles mr-2"></i>Créer / Laboratoire
+                </button>
+                <button onclick="switchView('pantheon')" class="px-4 py-2 rounded-lg text-sm font-semibold transition hover:bg-cyber-border text-gray-300 hover:text-cyber-pink">
+                    <i class="fa-solid fa-trophy mr-2"></i>Panthéon (<span id="pantheon-count">0</span>)
+                </button>
+            </nav>
+        </div>
+    </header>
+
+    <!-- MAIN CONTAINER -->
+    <main class="flex-grow max-w-7xl w-full mx-auto px-4 py-8">
+
+        <!-- VIEW: HOME -->
+        <section id="view-home" class="space-y-12">
+            <!-- Hero Banner -->
+            <div class="relative rounded-2xl overflow-hidden border border-cyber-border bg-gradient-to-b from-cyber-card to-cyber-dark p-8 sm:p-12 shadow-2xl">
+                <div class="absolute -right-20 -top-20 w-96 h-96 bg-cyber-neon/10 rounded-full blur-3xl pointer-events-none"></div>
+                <div class="absolute -left-20 -bottom-20 w-96 h-96 bg-cyber-purple/10 rounded-full blur-3xl pointer-events-none"></div>
+                
+                <div class="relative z-10 max-w-2xl space-y-6">
+                    <div class="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-cyber-purple/20 border border-cyber-purple/40 text-cyber-purple text-xs font-semibold tracking-wide">
+                        <i class="fa-solid fa-bolt"></i><span>Moteur de Combat Tactique & IA</span>
+                    </div>
+                    <h2 class="text-4xl sm:text-5xl font-black tracking-tight leading-none">
+                        CRÉEZ LE <span class="text-transparent bg-clip-text bg-gradient-to-r from-cyber-neon to-cyber-pink">GUERRIER ULTIME</span>
+                    </h2>
+                    <p class="text-gray-300 text-base sm:text-lg leading-relaxed">
+                        Mixez les stats, les capacités et l'intelligence de vos personnages fictifs favoris (mangas, jeux vidéo, cinéma). Affrontez des légendes dans une arène tactique avec gestion de mana et de cooldowns !
+                    </p>
+                    <div class="flex flex-wrap gap-4 pt-4">
+                        <button onclick="switchView('studio')" class="px-8 py-4 rounded-xl font-bold bg-gradient-to-r from-cyber-neon to-blue-600 text-black shadow-neon hover:opacity-90 transition transform hover:-translate-y-0.5">
+                            <i class="fa-solid fa-plus mr-2"></i>Nouveau Combattant
+                        </button>
+                        <button onclick="switchView('pantheon')" class="px-8 py-4 rounded-xl font-bold bg-cyber-card border border-cyber-border text-white hover:border-cyber-pink transition">
+                            <i class="fa-solid fa-shield-halved mr-2 text-cyber-pink"></i>Voir le Panthéon
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Features Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="bg-cyber-card/60 border border-cyber-border rounded-xl p-6 backdrop-blur">
+                    <div class="w-12 h-12 rounded-lg bg-cyber-neon/10 border border-cyber-neon/30 flex items-center justify-center text-cyber-neon mb-4 text-xl">
+                        <i class="fa-solid fa-sliders"></i>
+                    </div>
+                    <h3 class="text-lg font-bold mb-2">Builder Modulaire</h3>
+                    <p class="text-gray-400 text-sm">Répartissez vos points de Force, Vitesse, Défense et Intelligence. Inspirez-vous de notre base de données de légendes.</p>
+                </div>
+                <div class="bg-cyber-card/60 border border-cyber-border rounded-xl p-6 backdrop-blur">
+                    <div class="w-12 h-12 rounded-lg bg-cyber-purple/10 border border-cyber-purple/30 flex items-center justify-center text-cyber-purple mb-4 text-xl">
+                        <i class="fa-solid fa-wand-magic-sparkles"></i>
+                    </div>
+                    <h3 class="text-lg font-bold mb-2">Génération Visuelle</h3>
+                    <p class="text-gray-400 text-sm">Votre combattant obtient un avatar visuel unique généré et adapté dynamiquement selon ses statistiques dominantes.</p>
+                </div>
+                <div class="bg-cyber-card/60 border border-cyber-border rounded-xl p-6 backdrop-blur">
+                    <div class="w-12 h-12 rounded-lg bg-cyber-pink/10 border border-cyber-pink/30 flex items-center justify-center text-cyber-pink mb-4 text-xl">
+                        <i class="fa-solid fa-brain"></i>
+                    </div>
+                    <h3 class="text-lg font-bold mb-2">Combat Tactique PM/CD</h3>
+                    <p class="text-gray-400 text-sm">Gérez votre Mana lié à votre Intelligence, surveillez les temps de recharge et calculez vos risques (la récupération coûte un tour !).</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- VIEW: STUDIO DE CRÉATION (STEPPER) -->
+        <section id="view-studio" class="hidden space-y-8 max-w-4xl mx-auto">
+            <div class="bg-cyber-card border border-cyber-border rounded-2xl p-6 sm:p-8 shadow-xl relative overflow-hidden">
+                
+                <!-- Header Stepper -->
+                <div class="flex justify-between items-center mb-8 pb-6 border-b border-cyber-border">
+                    <div>
+                        <h2 class="text-2xl font-black">LABORATOIRE DE CRÉATION</h2>
+                        <p class="text-xs text-gray-400">Étape <span id="current-step-num">1</span> sur 3</p>
+                    </div>
+                    <button onclick="openLegendModal()" class="px-4 py-2 rounded-lg bg-cyber-purple/20 border border-cyber-purple/50 text-cyber-purple text-xs font-bold hover:bg-cyber-purple/30 transition shadow-neon-purple">
+                        <i class="fa-solid fa-book-atlas mr-2"></i>Choisir une Légende Modèle
+                    </button>
+                </div>
+
+                <!-- STEP 1: IDENTITY & AVATAR -->
+                <div id="step-1" class="space-y-6">
+                    <h3 class="text-lg font-bold text-cyber-neon flex items-center">
+                        <span class="w-7 h-7 rounded-full bg-cyber-neon/20 border border-cyber-neon text-cyber-neon flex items-center justify-center text-sm mr-3 font-orbitron">1</span>
+                        Identité & Style du Combattant
+                    </h3>
+                    
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                        <div class="space-y-4">
+                            <div>
+                                <label class="block text-xs font-semibold uppercase tracking-wider text-gray-400 mb-2">Nom du Combattant</label>
+                                <input type="text" id="char-name" placeholder="ex: Cyber-Goku Prime" class="w-full bg-cyber-dark border border-cyber-border rounded-xl px-4 py-3 text-white focus:outline-none focus:border-cyber-neon transition">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-semibold uppercase tracking-wider text-gray-400 mb-2">Origine / Univers Fictif</label>
+                                <input type="text" id="char-universe" placeholder="ex: DBZ x Cyberpunk 2077" class="w-full bg-cyber-dark border border-cyber-border rounded-xl px-4 py-3 text-white focus:outline-none focus:border-cyber-neon transition">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-semibold uppercase tracking-wider text-gray-400 mb-2">Type d'Hybridation</label>
+                                <select id="char-archetype" class="w-full bg-cyber-dark border border-cyber-border rounded-xl px-4 py-3 text-white focus:outline-none focus:border-cyber-neon transition">
+                                    <option value="cyber-brute">Cybernetic Brute (Force / Résistance)</option>
+                                    <option value="bio-speed">Bio-Speedster (Vitesse / Agilité)</option>
+                                    <option value="mystic-intel">Mystic Intellect (Magie / Intelligence)</option>
+                                    <option value="balanced">Hybride Équilibré (Polyvalent)</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="flex flex-col items-center justify-center bg-cyber-dark/50 border border-cyber-border rounded-xl p-4">
+                            <div id="avatar-preview-container" class="w-40 h-40 rounded-xl overflow-hidden border-2 border-cyber-neon shadow-neon mb-4 relative bg-black flex items-center justify-center">
+                                <i class="fa-solid fa-user-secret text-5xl text-cyber-neon"></i>
+                            </div>
+                            <p class="text-xs text-gray-400 text-center">Aperçu visuel généré selon l'archétype</p>
+                        </div>
+                    </div>
+
+                    <div class="flex justify-end pt-4">
+                        <button onclick="goToStep(2)" class="px-6 py-3 rounded-xl bg-cyber-neon text-black font-bold shadow-neon hover:opacity-90 transition">
+                            Suivant : Attributs <i class="fa-solid fa-arrow-right ml-2"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- STEP 2: STATS & MANA -->
+                <div id="step-2" class="hidden space-y-6">
+                    <div class="flex justify-between items-center">
+                        <h3 class="text-lg font-bold text-cyber-neon flex items-center">
+                            <span class="w-7 h-7 rounded-full bg-cyber-neon/20 border border-cyber-neon text-cyber-neon flex items-center justify-center text-sm mr-3 font-orbitron">2</span>
+                            Répartition des Attributs & Mana
+                        </h3>
+                        <div class="px-3 py-1 rounded-lg bg-cyber-card border border-cyber-border text-sm">
+                            Points restants : <span id="points-left" class="font-bold text-cyber-pink">100</span>
+                        </div>
+                    </div>
+
+                    <p class="text-xs text-gray-400">Distribuez vos points (total 100 max). L'Intelligence détermine directement votre réserve de Mana (PM).</p>
+
+                    <div class="space-y-4">
+                        <!-- Force -->
+                        <div class="bg-cyber-dark/60 p-4 rounded-xl border border-cyber-border">
+                            <div class="flex justify-between mb-2">
+                                <span class="font-semibold text-sm flex items-center"><i class="fa-solid fa-fist-raised text-cyber-pink mr-2"></i>Force Physique (Dégâts des attaques)</span>
+                                <span id="val-strength" class="font-orbitron font-bold text-cyber-pink">25</span>
+                            </div>
+                            <input type="range" min="5" max="70" value="25" class="w-full accent-cyber-pink cursor-pointer" id="stat-strength" oninput="updateStats()">
+                        </div>
+                        <!-- Vitesse -->
+                        <div class="bg-cyber-dark/60 p-4 rounded-xl border border-cyber-border">
+                            <div class="flex justify-between mb-2">
+                                <span class="font-semibold text-sm flex items-center"><i class="fa-solid fa-bolt text-cyber-neon mr-2"></i>Vitesse & Esquive (Ordre d'attaque)</span>
+                                <span id="val-speed" class="font-orbitron font-bold text-cyber-neon">25</span>
+                            </div>
+                            <input type="range" min="5" max="70" value="25" class="w-full accent-cyber-neon cursor-pointer" id="stat-speed" oninput="updateStats()">
+                        </div>
+                        <!-- Défense -->
+                        <div class="bg-cyber-dark/60 p-4 rounded-xl border border-cyber-border">
+                            <div class="flex justify-between mb-2">
+                                <span class="font-semibold text-sm flex items-center"><i class="fa-solid fa-shield text-blue-400 mr-2"></i>Défense & Résistance (Réduction dégâts)</span>
+                                <span id="val-defense" class="font-orbitron font-bold text-blue-400">25</span>
+                            </div>
+                            <input type="range" min="5" max="70" value="25" class="w-full accent-blue-400 cursor-pointer" id="stat-defense" oninput="updateStats()">
+                        </div>
+                        <!-- Intelligence / Mana -->
+                        <div class="bg-cyber-dark/60 p-4 rounded-xl border border-cyber-border">
+                            <div class="flex justify-between mb-2">
+                                <span class="font-semibold text-sm flex items-center"><i class="fa-solid fa-brain text-cyber-purple mr-2"></i>Intelligence (Détermine la Mana PM max)</span>
+                                <span id="val-intel" class="font-orbitron font-bold text-cyber-purple">25</span>
+                            </div>
+                            <input type="range" min="5" max="70" value="25" class="w-full accent-cyber-purple cursor-pointer" id="stat-intel" oninput="updateStats()">
+                            <div class="text-xs text-cyber-purple mt-2">Mana maximal généré : <span id="preview-max-mana" class="font-bold">125</span> PM</div>
+                        </div>
+                    </div>
+
+                    <div class="flex justify-between pt-4">
+                        <button onclick="goToStep(1)" class="px-6 py-3 rounded-xl bg-cyber-dark border border-cyber-border text-white hover:border-gray-400 transition">
+                            <i class="fa-solid fa-arrow-left mr-2">Retour</i>
+                        </button>
+                        <button onclick="goToStep(3)" class="px-6 py-3 rounded-xl bg-cyber-neon text-black font-bold shadow-neon hover:opacity-90 transition">
+                            Suivant : Compétences <i class="fa-solid fa-arrow-right ml-2"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- STEP 3: SKILLS SETUP -->
+                <div id="step-3" class="hidden space-y-6">
+                    <h3 class="text-lg font-bold text-cyber-neon flex items-center">
+                        <span class="w-7 h-7 rounded-full bg-cyber-neon/20 border border-cyber-neon text-cyber-neon flex items-center justify-center text-sm mr-3 font-orbitron">3</span>
+                        Arsenal & Compétences Spéciales
+                    </h3>
+                    <p class="text-xs text-gray-400">Configurez les 3 attaques spéciales de votre combattant, leur coût en Mana (PM) et leur temps de recharge (Cooldowns en tours).</p>
+
+                    <div class="space-y-4">
+                        <!-- Skill 1 -->
+                        <div class="bg-cyber-dark/60 p-4 rounded-xl border border-cyber-border space-y-3">
+                            <div class="flex items-center justify-between">
+                                <span class="text-xs font-bold text-cyber-neon uppercase">Compétence 1 (Légère)</span>
+                            </div>
+                            <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                                <input type="text" id="skill-1-name" value="Frappe Éclair" class="bg-cyber-card border border-cyber-border rounded-lg px-3 py-2 text-sm text-white">
+                                <div>
+                                    <label class="text-[10px] text-gray-400 block mb-1">Coût PM</label>
+                                    <input type="number" id="skill-1-cost" value="15" class="w-full bg-cyber-card border border-cyber-border rounded-lg px-3 py-2 text-sm text-white">
+                                </div>
+                                <div>
+                                    <label class="text-[10px] text-gray-400 block mb-1">Recharge (Tours)</label>
+                                    <input type="number" id="skill-1-cd" value="0" class="w-full bg-cyber-card border border-cyber-border rounded-lg px-3 py-2 text-sm text-white">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Skill 2 -->
+                        <div class="bg-cyber-dark/60 p-4 rounded-xl border border-cyber-border space-y-3">
+                            <div class="flex items-center justify-between">
+                                <span class="text-xs font-bold text-cyber-purple uppercase">Compétence 2 (Puissante)</span>
+                            </div>
+                            <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                                <input type="text" id="skill-2-name" value="Canon Plasma" class="bg-cyber-card border border-cyber-border rounded-lg px-3 py-2 text-sm text-white">
+                                <div>
+                                    <label class="text-[10px] text-gray-400 block mb-1">Coût PM</label>
+                                    <input type="number" id="skill-2-cost" value="35" class="w-full bg-cyber-card border border-cyber-border rounded-lg px-3 py-2 text-sm text-white">
+                                </div>
+                                <div>
+                                    <label class="text-[10px] text-gray-400 block mb-1">Recharge (Tours)</label>
+                                    <input type="number" id="skill-2-cd" value="1" class="w-full bg-cyber-card border border-cyber-border rounded-lg px-3 py-2 text-sm text-white">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Skill 3 -->
+                        <div class="bg-cyber-dark/60 p-4 rounded-xl border border-cyber-border space-y-3">
+                            <div class="flex items-center justify-between">
+                                <span class="text-xs font-bold text-cyber-pink uppercase">Compétence 3 (Ultime / Dévastatrice)</span>
+                            </div>
+                            <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                                <input type="text" id="skill-3-name" value="Orbite Zéro Absolu" class="bg-cyber-card border border-cyber-border rounded-lg px-3 py-2 text-sm text-white">
+                                <div>
+                                    <label class="text-[10px] text-gray-400 block mb-1">Coût PM</label>
+                                    <input type="number" id="skill-3-cost" value="60" class="w-full bg-cyber-card border border-cyber-border rounded-lg px-3 py-2 text-sm text-white">
+                                </div>
+                                <div>
+                                    <label class="text-[10px] text-gray-400 block mb-1">Recharge (Tours)</label>
+                                    <input type="number" id="skill-3-cd" value="3" class="w-full bg-cyber-card border border-cyber-border rounded-lg px-3 py-2 text-sm text-white">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="flex justify-between pt-4">
+                        <button onclick="goToStep(2)" class="px-6 py-3 rounded-xl bg-cyber-dark border border-cyber-border text-white hover:border-gray-400 transition">
+                            <i class="fa-solid fa-arrow-left mr-2">Retour</i>
+                        </button>
+                        <button onclick="saveAndEnterArena()" class="px-8 py-3 rounded-xl bg-gradient-to-r from-cyber-neon to-cyber-purple text-black font-extrabold shadow-neon hover:opacity-90 transition transform hover:-translate-y-0.5">
+                            <i class="fa-solid fa-fire mr-2"></i>Valider & Entrer dans l'Arène
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- VIEW: COMBAT ARENA -->
+        <section id="view-arena" class="hidden space-y-6 max-w-5xl mx-auto">
+            <div class="bg-cyber-card border border-cyber-border rounded-2xl p-6 shadow-2xl relative overflow-hidden">
+                <div class="absolute inset-0 bg-gradient-to-b from-cyber-neon/5 to-transparent pointer-events-none"></div>
+
+                <!-- Arena Header -->
+                <div class="text-center mb-6">
+                    <span class="px-4 py-1 rounded-full bg-cyber-pink/20 border border-cyber-pink/40 text-cyber-pink text-xs font-bold tracking-widest uppercase">
+                        Simulation de Combat Tactique
+                    </span>
+                    <h2 class="text-2xl font-black mt-2 font-orbitron">TOUR <span id="battle-round">1</span></h2>
+                </div>
+
+                <!-- Fighters Display Box -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+                    
+                    <!-- Player Fighter Card -->
+                    <div class="bg-cyber-dark/80 border-2 border-cyber-neon/60 rounded-xl p-5 shadow-neon relative">
+                        <div class="flex items-center space-x-4 mb-4">
+                            <div id="arena-player-avatar" class="w-16 h-16 rounded-lg overflow-hidden border border-cyber-neon bg-black flex items-center justify-center">
+                                <i class="fa-solid fa-user-ninja text-2xl text-cyber-neon"></i>
+                            </div>
+                            <div>
+                                <span class="text-[10px] text-cyber-neon font-bold uppercase tracking-wider">Combattant (Vous)</span>
+                                <h3 id="arena-player-name" class="text-lg font-black text-white">Nom du Joueur</h3>
+                                <p id="arena-player-universe" class="text-xs text-gray-400">Univers</p>
+                            </div>
+                        </div>
+
+                        <!-- HP Bar -->
+                        <div class="space-y-1 mb-3">
+                            <div class="flex justify-between text-xs font-bold">
+                                <span>POINTS DE VIE (PV)</span>
+                                <span id="player-hp-text">100 / 100</span>
+                            </div>
+                            <div class="w-full h-3 bg-gray-900 rounded-full overflow-hidden border border-cyber-border">
+                                <div id="player-hp-bar" class="h-full bg-gradient-to-r from-emerald-500 to-cyber-neon transition-all duration-300" style="width: 100%"></div>
+                            </div>
+                        </div>
+
+                        <!-- Mana Bar -->
+                        <div class="space-y-1">
+                            <div class="flex justify-between text-xs font-bold">
+                                <span class="text-cyber-purple">MANA (PM)</span>
+                                <span id="player-mana-text" class="text-cyber-purple">125 / 125</span>
+                            </div>
+                            <div class="w-full h-3 bg-gray-900 rounded-full overflow-hidden border border-cyber-border">
+                                <div id="player-mana-bar" class="h-full bg-gradient-to-r from-purple-800 to-cyber-purple transition-all duration-300" style="width: 100%"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- AI Enemy Fighter Card -->
+                    <div class="bg-cyber-dark/80 border-2 border-cyber-pink/60 rounded-xl p-5 shadow-neon-pink relative">
+                        <div class="flex items-center space-x-4 mb-4">
+                            <div id="arena-enemy-avatar" class="w-16 h-16 rounded-lg overflow-hidden border border-cyber-pink bg-black flex items-center justify-center">
+                                <i class="fa-solid fa-skull text-2xl text-cyber-pink"></i>
+                            </div>
+                            <div>
+                                <span class="text-[10px] text-cyber-pink font-bold uppercase tracking-wider">Adversaire Légendaire</span>
+                                <h3 id="arena-enemy-name" class="text-lg font-black text-white">Saitama Cyber-X</h3>
+                                <p id="arena-enemy-universe" class="text-xs text-gray-400">One Punch Universe</p>
+                            </div>
+                        </div>
+
+                        <!-- HP Bar -->
+                        <div class="space-y-1 mb-3">
+                            <div class="flex justify-between text-xs font-bold">
+                                <span>POINTS DE VIE (PV)</span>
+                                <span id="enemy-hp-text">100 / 100</span>
+                            </div>
+                            <div class="w-full h-3 bg-gray-900 rounded-full overflow-hidden border border-cyber-border">
+                                <div id="enemy-hp-bar" class="h-full bg-gradient-to-r from-red-600 to-cyber-pink transition-all duration-300" style="width: 100%"></div>
+                            </div>
+                        </div>
+
+                        <!-- Mana Bar -->
+                        <div class="space-y-1">
+                            <div class="flex justify-between text-xs font-bold">
+                                <span class="text-cyber-purple">MANA (PM)</span>
+                                <span id="enemy-mana-text" class="text-cyber-purple">100 / 100</span>
+                            </div>
+                            <div class="w-full h-3 bg-gray-900 rounded-full overflow-hidden border border-cyber-border">
+                                <div id="enemy-mana-bar" class="h-full bg-gradient-to-r from-purple-800 to-cyber-purple transition-all duration-300" style="width: 100%"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- Combat Action Deck & Controls -->
+                <div id="combat-controls" class="bg-cyber-dark border border-cyber-border rounded-xl p-5 mb-6">
+                    <h4 class="text-xs font-bold text-gray-400 uppercase tracking-widest mb-4">Panneau de Commandes Tactiques</h4>
+                    <div id="skills-button-container" class="grid grid-cols-1 sm:grid-cols-4 gap-3">
+                        <!-- Generated via JS -->
+                    </div>
+                </div>
+
+                <!-- Combat Console / Logs -->
+                <div class="bg-black/80 border border-cyber-border rounded-xl p-4 h-40 overflow-y-auto font-mono text-xs space-y-2" id="combat-logs">
+                    <div class="text-cyber-neon">[SYSTÈME] Arène initialisée. Que le combat commence !</div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- VIEW: PANTHEON -->
+        <section id="view-pantheon" class="hidden space-y-6">
+            <div class="flex justify-between items-center">
+                <div>
+                    <h2 class="text-3xl font-black">LE PANTHÉON DES LÉGENDES</h2>
+                    <p class="text-xs text-gray-400">Retrouvez tous les combattants créés et enregistrés sur votre navigateur.</p>
+                </div>
+                <button onclick="clearPantheon()" class="px-4 py-2 rounded-lg bg-red-500/10 border border-red-500/30 text-red-400 text-xs font-bold hover:bg-red-500/20 transition">
+                    <i class="fa-solid fa-trash mr-2"></i>Effacer le Panthéon
+                </button>
+            </div>
+
+            <div id="pantheon-grid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+                <!-- Dynamically populated -->
+            </div>
+        </section>
+
+    </main>
+
+    <!-- LEGEND MODAL -->
+    <div id="legend-modal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-cyber-card border border-cyber-border rounded-2xl max-w-2xl w-full p-6 space-y-6 relative max-h-[90vh] overflow-y-auto">
+            <div class="flex justify-between items-center border-b border-cyber-border pb-4">
+                <h3 class="text-xl font-bold flex items-center text-cyber-purple"><i class="fa-solid fa-book-atlas mr-2"></i>Base de Données des Légendes</h3>
+                <button onclick="closeLegendModal()" class="text-gray-400 hover:text-white"><i class="fa-solid fa-xmark text-xl"></i></button>
+            </div>
+            <p class="text-xs text-gray-400">Cliquez sur une légende pour importer instantanément ses statistiques et compétences dans votre studio de création !</p>
+            <div id="legends-list" class="space-y-3">
+                <!-- Populated by JS -->
+            </div>
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer class="border-t border-cyber-border bg-cyber-dark/80 py-6 text-center text-xs text-gray-500">
+        <p>Hybrid Fighter Arena &copy; 2026 - Conçu avec une architecture UX/UI et des standards web avancés.</p>
+    </footer>
+
+    <!-- JAVASCRIPT ENGINE -->
+    <script>
+        // --- DATA & STATE ---
+        const iconsList = [
+            'fa-user-ninja', 'fa-robot', 'fa-dragon', 'fa-ghost', 'fa-mask', 'fa-skull', 'fa-bolt', 'fa-fire-flame-curved', 'fa-shield-cat', 'fa-biohazard'
+        ];
+
+        const iconicLegends = [
+            {
+                name: "Goku Cyber-Saiyan",
+                universe: "Dragon Ball x Matrix",
+                archetype: "balanced",
+                strength: 40, speed: 35, defense: 15, intel: 10,
+                skills: [
+                    { name: "Poing Météore", cost: 15, cd: 0 },
+                    { name: "Kamehameha Quantique", cost: 40, cd: 1 },
+                    { name: "Ultra Instinct Numérique", cost: 65, cd: 3 }
+                ]
+            },
+            {
+                name: "Batman Arkham Nexus",
+                universe: "DC Comics",
+                archetype: "mystic-intel",
+                strength: 20, speed: 30, defense: 25, intel: 25,
+                skills: [
+                    { name: "Batarang Électrique", cost: 10, cd: 0 },
+                    { name: "Pression Tactique", cost: 30, cd: 1 },
+                    { name: "Protocole Knightfall", cost: 50, cd: 2 }
+                ]
+            },
+            {
+                name: "Saitama One-Punch OS",
+                universe: "One Punch Man",
+                archetype: "cyber-brute",
+                strength: 65, speed: 20, defense: 10, intel: 5,
+                skills: [
+                    { name: "Série Normale de Coups", cost: 10, cd: 0 },
+                    { name: "Série Sérieuse : Poing Solaire", cost: 45, cd: 2 },
+                    { name: "One Punch Absolu", cost: 70, cd: 4 }
+                ]
+            },
+            {
+                name: "Dark Vador Protocol",
+                universe: "Star Wars Cyber",
+                archetype: "cyber-brute",
+                strength: 45, speed: 15, defense: 30, intel: 10,
+                skills: [
+                    { name: "Jet de Sabre Laser", cost: 15, cd: 0 },
+                    { name: "Étranglement Quantique", cost: 35, cd: 1 },
+                    { name: "Courroux du Côté Obscur", cost: 60, cd: 3 }
+                ]
+            }
+        ];
+
+        let currentCharacter = {
+            name: "",
+            universe: "",
+            archetype: "cyber-brute",
+            strength: 25,
+            speed: 25,
+            defense: 25,
+            intel: 25,
+            maxHp: 100,
+            maxMana: 125,
+            skills: []
+        };
+
+        let battleState = {
+            playerHp: 100,
+            playerMana: 125,
+            enemyHp: 100,
+            enemyMana: 100,
+            round: 1,
+            playerCd: [0, 0, 0],
+            enemyCd: [0, 0, 0],
+            enemyData: null,
+            isPlayerTurn: true
+        };
+
+        // --- NAVIGATION & VIEWS ---
+        function switchView(viewName) {
+            ['home', 'studio', 'arena', 'pantheon'].forEach(v => {
+                document.getElementById(`view-${v}`).classList.add('hidden');
+            });
+            document.getElementById(`view-${viewName}`).classList.remove('hidden');
+            if (viewName === 'pantheon') renderPantheon();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // --- STUDIO STEPPER & STATS ---
+        function goToStep(step) {
+            [1, 2, 3].forEach(s => {
+                document.getElementById(`step-${s}`).classList.add('hidden');
+            });
+            document.getElementById(`step-${step}`).classList.remove('hidden');
+            document.getElementById('current-step-num').innerText = step;
+            if (step === 3) updateSkillDefaults();
+        }
+
+        function updateStats() {
+            let str = parseInt(document.getElementById('stat-strength').value);
+            let spd = parseInt(document.getElementById('stat-speed').value);
+            let def = parseInt(document.getElementById('stat-defense').value);
+            let intel = parseInt(document.getElementById('stat-intel').value);
+
+            let total = str + spd + def + intel;
+            let left = 100 - total;
+
+            document.getElementById('val-strength').innerText = str;
+            document.getElementById('val-speed').innerText = spd;
+            document.getElementById('val-defense').innerText = def;
+            document.getElementById('val-intel').innerText = intel;
+            document.getElementById('points-left').innerText = left;
+
+            // Intelligence scales max Mana
+            let calculatedMana = 50 + (intel * 3);
+            document.getElementById('preview-max-mana').innerText = calculatedMana;
+
+            currentCharacter.strength = str;
+            currentCharacter.speed = spd;
+            currentCharacter.defense = def;
+            currentCharacter.intel = intel;
+            currentCharacter.maxMana = calculatedMana;
+
+            updateAvatarPreview();
+        }
+
+        function updateAvatarPreview() {
+            const arch = document.getElementById('char-archetype').value;
+            let icon = 'fa-user-ninja';
+            let color = 'text-cyber-neon';
+            if (arch === 'cyber-brute') { icon = 'fa-robot'; color = 'text-cyber-pink'; }
+            if (arch === 'bio-speed') { icon = 'fa-bolt'; color = 'text-cyber-neon'; }
+            if (arch === 'mystic-intel') { icon = 'fa-ghost'; color = 'text-cyber-purple'; }
+
+            document.getElementById('avatar-preview-container').innerHTML = `<i class="fa-solid ${icon} text-5xl ${color}"></i>`;
+        }
+
+        document.getElementById('char-archetype').addEventListener('change', updateAvatarPreview);
+
+        function updateSkillDefaults() {
+            const arch = document.getElementById('char-archetype').value;
+            if (arch === 'cyber-brute') {
+                document.getElementById('skill-1-name').value = "Poing d'Acier";
+                document.getElementById('skill-2-name').value = "Choc Sismique";
+                document.getElementById('skill-3-name').value = "Impact Titan";
+            } else if (arch === 'bio-speed') {
+                document.getElementById('skill-1-name').value = "Frappe Éclair";
+                document.getElementById('skill-2-name').value = "Tornade Foudroyante";
+                document.getElementById('skill-3-name').value = "Vitesse Lumière";
+            } else if (arch === 'mystic-intel') {
+                document.getElementById('skill-1-name').value = "Orbe Mental";
+                document.getElementById('skill-2-name').value = "Vortex Arcanique";
+                document.getElementById('skill-3-name').value = "Singularité Cosmique";
+            }
+        }
+
+        // --- LEGENDS MODAL ---
+        function openLegendModal() {
+            const listEl = document.getElementById('legends-list');
+            listEl.innerHTML = '';
+            iconicLegends.forEach((leg, idx) => {
+                listEl.innerHTML += `
+                    <div class="bg-cyber-dark border border-cyber-border rounded-xl p-4 flex flex-col sm:flex-row justify-between items-center gap-4 hover:border-cyber-purple transition">
+                        <div>
+                            <h4 class="font-bold text-white">${leg.name}</h4>
+                            <p class="text-xs text-gray-400">Univers : ${leg.universe}</p>
+                            <div class="flex gap-3 mt-2 text-xs font-mono text-cyber-neon">
+                                <span>FOR: ${leg.strength}</span><span>VIT: ${leg.speed}</span><span>DEF: ${leg.defense}</span><span>INT: ${leg.intel}</span>
+                            </div>
+                        </div>
+                        <button onclick="loadLegend(${idx})" class="px-4 py-2 rounded-lg bg-cyber-purple text-white text-xs font-bold hover:opacity-90 shadow-neon-purple whitespace-nowrap">
+                            Charger ce modèle
+                        </button>
+                    </div>
+                `;
+            });
+            document.getElementById('legend-modal').classList.remove('hidden');
+        }
+
+        function closeLegendModal() {
+            document.getElementById('legend-modal').classList.add('hidden');
+        }
+
+        function loadLegend(idx) {
+            const leg = iconicLegends[idx];
+            document.getElementById('char-name').value = leg.name;
+            document.getElementById('char-universe').value = leg.universe;
+            document.getElementById('char-archetype').value = leg.archetype;
+            
+            document.getElementById('stat-strength').value = leg.strength;
+            document.getElementById('stat-speed').value = leg.speed;
+            document.getElementById('stat-defense').value = leg.defense;
+            document.getElementById('stat-intel').value = leg.intel;
+
+            updateStats();
+
+            document.getElementById('skill-1-name').value = leg.skills[0].name;
+            document.getElementById('skill-1-cost').value = leg.skills[0].cost;
+            document.getElementById('skill-1-cd').value = leg.skills[0].cd;
+
+            document.getElementById('skill-2-name').value = leg.skills[1].name;
+            document.getElementById('skill-2-cost').value = leg.skills[1].cost;
+            document.getElementById('skill-2-cd').value = leg.skills[1].cd;
+
+            document.getElementById('skill-3-name').value = leg.skills[2].name;
+            document.getElementById('skill-3-cost').value = leg.skills[2].cost;
+            document.getElementById('skill-3-cd').value = leg.skills[2].cd;
+
+            closeLegendModal();
+            goToStep(1);
+        }
+
+        // --- SAVE & LAUNCH ARENA ---
+        function saveAndEnterArena() {
+            const name = document.getElementById('char-name').value.trim();
+            if (!name) {
+                alert("Veuillez donner un nom à votre combattant !");
+                goToStep(1);
+                return;
+            }
+
+            currentCharacter.name = name;
+            currentCharacter.universe = document.getElementById('char-universe').value.trim() || "Univers Inconnu";
+            currentCharacter.archetype = document.getElementById('char-archetype').value;
+            currentCharacter.maxHp = 100 + (currentCharacter.defense * 2);
+            currentCharacter.skills = [
+                {
+                    name: document.getElementById('skill-1-name').value,
+                    cost: parseInt(document.getElementById('skill-1-cost').value) || 10,
+                    cdMax: parseInt(document.getElementById('skill-1-cd').value) || 0
+                },
+                {
+                    name: document.getElementById('skill-2-name').value,
+                    cost: parseInt(document.getElementById('skill-2-cost').value) || 25,
+                    cdMax: parseInt(document.getElementById('skill-2-cd').value) || 1
+                },
+                {
+                    name: document.getElementById('skill-3-name').value,
+                    cost: parseInt(document.getElementById('skill-3-cost').value) || 50,
+                    cdMax: parseInt(document.getElementById('skill-3-cd').value) || 3
+                }
+            ];
+
+            // Save to LocalStorage Pantheon
+            saveToPantheon(currentCharacter);
+
+            // Setup Arena
+            setupBattle();
+            switchView('arena');
+        }
+
+        function saveToPantheon(char) {
+            let pantheon = JSON.parse(localStorage.getItem('hybrid_pantheon') || '[]');
+            pantheon.unshift(char);
+            localStorage.setItem('hybrid_pantheon', JSON.stringify(pantheon));
+            updatePantheonCount();
+        }
+
+        function updatePantheonCount() {
+            let pantheon = JSON.parse(localStorage.getItem('hybrid_pantheon') || '[]');
+            document.getElementById('pantheon-count').innerText = pantheon.length;
+        }
+
+        updatePantheonCount();
+
+        // --- COMBAT ENGINE ---
+        function setupBattle() {
+            battleState.playerHp = currentCharacter.maxHp;
+            battleState.playerMana = currentCharacter.maxMana;
+            battleState.round = 1;
+            battleState.playerCd = [0, 0, 0];
+            battleState.enemyCd = [0, 0, 0];
+
+            // Pick random enemy from legends
+            const randomLegend = iconicLegends[Math.floor(Math.random() * iconicLegends.length)];
+            battleState.enemyData = {
+                name: randomLegend.name + " (Boss)",
+                universe: randomLegend.universe,
+                hp: 120,
+                maxHp: 120,
+                mana: 120,
+                maxMana: 120,
+                strength: randomLegend.strength + 5,
+                speed: randomLegend.speed,
+                skills: randomLegend.skills
+            };
+
+            battleState.enemyHp = battleState.enemyData.hp;
+            battleState.enemyMana = battleState.enemyData.mana;
+            battleState.isPlayerTurn = true;
+
+            // DOM Updates
+            document.getElementById('arena-player-name').innerText = currentCharacter.name;
+            document.getElementById('arena-player-universe').innerText = currentCharacter.universe;
+            document.getElementById('arena-enemy-name').innerText = battleState.enemyData.name;
+            document.getElementById('arena-enemy-universe').innerText = battleState.enemyData.universe;
+
+            // Clear logs
+            document.getElementById('combat-logs').innerHTML = '<div class="text-cyber-neon">[SYSTÈME] Arène initialisée. Que le combat commence !</div>';
+
+            logMessage(`[COMBAT] Affrontement lancé entre ${currentCharacter.name} et ${battleState.enemyData.name} !`);
+            updateBattleUI();
+        }
+
+        function updateBattleUI() {
+            // Player Bars
+            let pPercent = Math.max(0, (battleState.playerHp / currentCharacter.maxHp) * 100);
+            document.getElementById('player-hp-text').innerText = `${Math.round(battleState.playerHp)} / ${currentCharacter.maxHp}`;
+            document.getElementById('player-hp-bar').style.width = `${pPercent}%`;
+
+            let pManaPercent = Math.max(0, (battleState.playerMana / currentCharacter.maxMana) * 100);
+            document.getElementById('player-mana-text').innerText = `${Math.round(battleState.playerMana)} / ${currentCharacter.maxMana}`;
+            document.getElementById('player-mana-bar').style.width = `${pManaPercent}%`;
+
+            // Enemy Bars
+            let ePercent = Math.max(0, (battleState.enemyHp / battleState.enemyData.maxHp) * 100);
+            document.getElementById('enemy-hp-text').innerText = `${Math.round(battleState.enemyHp)} / ${battleState.enemyData.maxHp}`;
+            document.getElementById('enemy-hp-bar').style.width = `${ePercent}%`;
+
+            let eManaPercent = Math.max(0, (battleState.enemyMana / battleState.enemyData.maxMana) * 100);
+            document.getElementById('enemy-mana-text').innerText = `${Math.round(battleState.enemyMana)} / ${battleState.enemyData.maxMana}`;
+            document.getElementById('enemy-mana-bar').style.width = `${eManaPercent}%`;
+
+            document.getElementById('battle-round').innerText = battleState.round;
+
+            renderCombatControls();
+        }
+
+        function renderCombatControls() {
+            const container = document.getElementById('skills-button-container');
+            container.innerHTML = '';
+
+            currentCharacter.skills.forEach((skill, idx) => {
+                let cdLeft = battleState.playerCd[idx];
+                let hasMana = battleState.playerMana >= skill.cost;
+                let disabled = (cdLeft > 0 || !hasMana || !battleState.isPlayerTurn);
+
+                let btnClass = disabled ? 'bg-gray-800 border-gray-700 text-gray-500 cursor-not-allowed' : 'bg-cyber-card border-cyber-neon/50 text-white hover:border-cyber-neon shadow-neon';
+
+                container.innerHTML += `
+                    <button onclick="playerAttack(${idx})" ${disabled ? 'disabled' : ''} class="p-3 rounded-xl border ${btnClass} flex flex-col justify-between transition text-left relative overflow-hidden">
+                        <div>
+                            <span class="text-[10px] font-bold text-cyber-neon uppercase block">Attaque ${idx + 1}</span>
+                            <span class="font-bold text-sm block truncate">${skill.name}</span>
+                        </div>
+                        <div class="flex justify-between items-center mt-3 text-xs">
+                            <span class="text-cyber-purple"><i class="fa-solid fa-bolt mr-1"></i>${skill.cost} PM</span>
+                            <span>${cdLeft > 0 ? `<i class="fa-solid fa-clock mr-1"></i>CD: ${cdLeft}` : 'Prêt'}</span>
+                        </div>
+                    </button>
+                `;
+            });
+
+            // Recovery Action Button (Consumes a turn)
+            container.innerHTML += `
+                <button onclick="playerRecover()" ${!battleState.isPlayerTurn ? 'disabled' : ''} class="p-3 rounded-xl border bg-cyber-purple/10 border-cyber-purple/40 text-cyber-purple hover:bg-cyber-purple/20 flex flex-col justify-between transition text-left">
+                    <div>
+                        <span class="text-[10px] font-bold uppercase block">Action Tactique</span>
+                        <span class="font-bold text-sm block">Récupération</span>
+                    </div>
+                    <div class="flex justify-between items-center mt-3 text-xs">
+                        <span><i class="fa-solid fa-battery-full mr-1"></i>+Mana & PV</span>
+                        <span class="text-xs text-cyber-pink font-semibold">Coûte 1 Tour</span>
+                    </div>
+                </button>
+            `;
+        }
+
+        function logMessage(msg) {
+            const logs = document.getElementById('combat-logs');
+            logs.innerHTML += `<div>${msg}</div>`;
+            logs.scrollTop = logs.scrollHeight;
+        }
+
+        function playerAttack(skillIdx) {
+            if (!battleState.isPlayerTurn) return;
+
+            let skill = currentCharacter.skills[skillIdx];
+            if (battleState.playerMana < skill.cost || battleState.playerCd[skillIdx] > 0) return;
+
+            // Consume Mana & Apply CD
+            battleState.playerMana -= skill.cost;
+            battleState.playerCd[skillIdx] = skill.cdMax + 1;
+
+            // Calculate Damage
+            let baseDmg = currentCharacter.strength * 0.8 + (skillIdx + 1) * 12;
+            let finalDmg = Math.max(5, Math.round(baseDmg - (battleState.enemyData.strength * 0.2)));
+            battleState.enemyHp -= finalDmg;
+
+            logMessage(`<span class="text-cyber-neon">[TOUR ${battleState.round}] ${currentCharacter.name} utilise ${skill.name} ! ${finalDmg} dégâts infligés.</span>`);
+
+            checkBattleEnd();
+        }
+
+        function playerRecover() {
+            if (!battleState.isPlayerTurn) return;
+
+            let manaGain = 35;
+            let hpGain = 20;
+            battleState.playerMana = Math.min(currentCharacter.maxMana, battleState.playerMana + manaGain);
+            battleState.playerHp = Math.min(currentCharacter.maxHp, battleState.playerHp + hpGain);
+
+            logMessage(`<span class="text-cyber-purple">[TOUR ${battleState.round}] ${currentCharacter.name} prend un tour de repos et récupère ${manaGain} PM et ${hpGain} PV ! (Tour consommé)</span>`);
+
+            endPlayerTurn();
+        }
+
+        function endPlayerTurn() {
+            // Tick down player cooldowns
+            battleState.playerCd = battleState.playerCd.map(cd => Math.max(0, cd - 1));
+
+            if (battleState.enemyHp <= 0) {
+                battleEnd(true);
+                return;
+            }
+
+            battleState.isPlayerTurn = false;
+            updateBattleUI();
+
+            // AI Turn after delay
+            setTimeout(enemyTurn, 1000);
+        }
+
+        function enemyTurn() {
+            if (battleState.enemyHp <= 0) return;
+
+            // AI Skill selection based on available mana
+            let availableSkills = battleState.enemyData.skills.filter((s, idx) => battleState.enemyMana >= s.cost && battleState.enemyCd[idx] === 0);
+            
+            if (availableSkills.length === 0) {
+                // Enemy recovers mana
+                battleState.enemyMana = Math.min(battleState.enemyData.maxMana, battleState.enemyMana + 30);
+                logMessage(`<span class="text-cyber-pink">[TOUR ${battleState.round}] ${battleState.enemyData.name} médite pour recharger sa Mana.</span>`);
+            } else {
+                // Pick random available skill
+                let chosenSkillIdx = Math.floor(Math.random() * availableSkills.length);
+                let skill = availableSkills[chosenSkillIdx];
+                let originalIdx = battleState.enemyData.skills.indexOf(skill);
+
+                battleState.enemyMana -= skill.cost;
+                battleState.enemyCd[originalIdx] = skill.cd + 1;
+
+                let dmg = Math.max(8, Math.round(battleState.enemyData.strength * 0.7 - currentCharacter.defense * 0.3));
+                battleState.playerHp -= dmg;
+
+                logMessage(`<span class="text-cyber-pink">[TOUR ${battleState.round}] ${battleState.enemyData.name} utilise ${skill.name} ! Vous subissez ${dmg} dégâts.</span>`);
+            }
+
+            // Tick down enemy cooldowns
+            battleState.enemyCd = battleState.enemyCd.map(cd => Math.max(0, cd - 1));
+
+            if (battleState.playerHp <= 0) {
+                battleEnd(false);
+                return;
+            }
+
+            battleState.round++;
+            battleState.isPlayerTurn = true;
+            updateBattleUI();
+        }
+
+        function checkBattleEnd() {
+            if (battleState.enemyHp <= 0) {
+                battleEnd(true);
+            } else {
+                endPlayerTurn();
+            }
+        }
+
+        function battleEnd(isVictory) {
+            if (isVictory) {
+                logMessage(`<span class="text-emerald-400 font-bold">[VICTORIEUX] ${currentCharacter.name} a triomphé de son adversaire avec brio !</span>`);
+                alert(`Victoire éclatante ! Votre combattant ${currentCharacter.name} remporte le combat.`);
+            } else {
+                logMessage(`<span class="text-red-500 font-bold">[DÉFAITE] ${currentCharacter.name} a succombé au combat...</span>`);
+                alert(`Défaite... ${battleState.enemyData.name} était trop fort. Entraînez de nouvelles stats !`);
+            }
+            switchView('pantheon');
+        }
+
+        // --- PANTHEON VIEW ---
+        function renderPantheon() {
+            const grid = document.getElementById('pantheon-grid');
+            let pantheon = JSON.parse(localStorage.getItem('hybrid_pantheon') || '[]');
+            grid.innerHTML = '';
+
+            if (pantheon.length === 0) {
+                grid.innerHTML = `<div class="col-span-full text-center py-12 text-gray-500">Aucun combattant enregistré pour l'instant. Créez-en un dans le laboratoire !</div>`;
+                return;
+            }
+
+            pantheon.forEach((char, index) => {
+                grid.innerHTML += `
+                    <div class="bg-cyber-card border border-cyber-border rounded-xl p-5 shadow-lg flex flex-col justify-between space-y-4">
+                        <div>
+                            <div class="flex justify-between items-start mb-2">
+                                <h3 class="font-black text-lg text-white">${char.name}</h3>
+                                <span class="text-[10px] bg-cyber-purple/20 text-cyber-purple border border-cyber-purple/40 px-2 py-0.5 rounded uppercase font-semibold">${char.archetype}</span>
+                            </div>
+                            <p class="text-xs text-gray-400 mb-4">${char.universe}</p>
+                            
+                            <div class="grid grid-cols-2 gap-2 text-xs font-mono bg-cyber-dark p-3 rounded-lg border border-cyber-border">
+                                <div>Force : <span class="text-cyber-pink font-bold">${char.strength}</span></div>
+                                <div>Vitesse : <span class="text-cyber-neon font-bold">${char.speed}</span></div>
+                                <div>Défense : <span class="text-blue-400 font-bold">${char.defense}</span></div>
+                                <div>Intel (PM) : <span class="text-cyber-purple font-bold">${char.intel} (${char.maxMana})</span></div>
+                            </div>
+                        </div>
+
+                        <div class="flex gap-2 pt-2">
+                            <button onclick="loadCharToArena(${index})" class="flex-grow py-2 rounded-lg bg-cyber-neon/10 border border-cyber-neon/30 text-cyber-neon font-bold text-xs hover:bg-cyber-neon/20 transition">
+                                <i class="fa-solid fa-play mr-1"></i>Combattre
+                            </button>
+                            <button onclick="deleteChar(${index})" class="px-3 py-2 rounded-lg bg-red-500/10 border border-red-500/30 text-red-400 hover:bg-red-500/20 transition text-xs">
+                                <i class="fa-solid fa-trash"></i>
+                            </button>
+                        </div>
+                    </div>
+                `;
+            });
+        }
+
+        function loadCharToArena(index) {
+            let pantheon = JSON.parse(localStorage.getItem('hybrid_pantheon') || '[]');
+            currentCharacter = pantheon[index];
+            setupBattle();
+            switchView('arena');
+        }
+
+        function deleteChar(index) {
+            let pantheon = JSON.parse(localStorage.getItem('hybrid_pantheon') || '[]');
+            pantheon.splice(index, 1);
+            localStorage.setItem('hybrid_pantheon', JSON.stringify(pantheon));
+            renderPantheon();
+            updatePantheonCount();
+        }
+
+        function clearPantheon() {
+            if (confirm("Voulez-vous vraiment effacer tout le panthéon ?")) {
+                localStorage.removeItem('hybrid_pantheon');
+                renderPantheon();
+                updatePantheonCount();
+            }
+        }
+
+        // Initialize default stats slider view
+        updateStats();
+    </script>
+</body>
+</html>

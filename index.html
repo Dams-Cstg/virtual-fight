@@ -216,45 +216,45 @@
                             Répartition des Attributs & Mana
                         </h3>
                         <div class="px-3 py-1 rounded-lg bg-cyber-card border border-cyber-border text-sm">
-                            Points restants : <span id="points-left" class="font-bold text-cyber-pink">100</span>
+                            Points restants : <span id="points-left" class="font-bold text-cyber-pink">60</span>
                         </div>
                     </div>
 
-                    <p class="text-xs text-gray-400">Distribuez vos points (total 100 max). L'Intelligence détermine directement votre réserve de Mana (PM).</p>
+                    <p class="text-xs text-gray-400">Distribuez vos points (total 60 max). L'Intelligence détermine directement votre réserve de Mana (PM).</p>
 
                     <div class="space-y-4">
                         <!-- Force -->
                         <div class="bg-cyber-dark/60 p-4 rounded-xl border border-cyber-border">
                             <div class="flex justify-between mb-2">
                                 <span class="font-semibold text-sm flex items-center"><i class="fa-solid fa-fist-raised text-cyber-pink mr-2"></i>Force Physique (Dégâts des attaques)</span>
-                                <span id="val-strength" class="font-orbitron font-bold text-cyber-pink">25</span>
+                                <span id="val-strength" class="font-orbitron font-bold text-cyber-pink">15</span>
                             </div>
-                            <input type="range" min="5" max="70" value="25" class="w-full accent-cyber-pink cursor-pointer" id="stat-strength" oninput="updateStats()">
+                            <input type="range" min="5" max="40" value="15" class="w-full accent-cyber-pink cursor-pointer" id="stat-strength" oninput="updateStats()">
                         </div>
                         <!-- Vitesse -->
                         <div class="bg-cyber-dark/60 p-4 rounded-xl border border-cyber-border">
                             <div class="flex justify-between mb-2">
                                 <span class="font-semibold text-sm flex items-center"><i class="fa-solid fa-bolt text-cyber-neon mr-2"></i>Vitesse & Esquive (Ordre d'attaque)</span>
-                                <span id="val-speed" class="font-orbitron font-bold text-cyber-neon">25</span>
+                                <span id="val-speed" class="font-orbitron font-bold text-cyber-neon">15</span>
                             </div>
-                            <input type="range" min="5" max="70" value="25" class="w-full accent-cyber-neon cursor-pointer" id="stat-speed" oninput="updateStats()">
+                            <input type="range" min="5" max="40" value="15" class="w-full accent-cyber-neon cursor-pointer" id="stat-speed" oninput="updateStats()">
                         </div>
                         <!-- Défense -->
                         <div class="bg-cyber-dark/60 p-4 rounded-xl border border-cyber-border">
                             <div class="flex justify-between mb-2">
                                 <span class="font-semibold text-sm flex items-center"><i class="fa-solid fa-shield text-blue-400 mr-2"></i>Défense & Résistance (Réduction dégâts)</span>
-                                <span id="val-defense" class="font-orbitron font-bold text-blue-400">25</span>
+                                <span id="val-defense" class="font-orbitron font-bold text-blue-400">15</span>
                             </div>
-                            <input type="range" min="5" max="70" value="25" class="w-full accent-blue-400 cursor-pointer" id="stat-defense" oninput="updateStats()">
+                            <input type="range" min="5" max="40" value="15" class="w-full accent-blue-400 cursor-pointer" id="stat-defense" oninput="updateStats()">
                         </div>
                         <!-- Intelligence / Mana -->
                         <div class="bg-cyber-dark/60 p-4 rounded-xl border border-cyber-border">
                             <div class="flex justify-between mb-2">
                                 <span class="font-semibold text-sm flex items-center"><i class="fa-solid fa-brain text-cyber-purple mr-2"></i>Intelligence (Détermine la Mana PM max)</span>
-                                <span id="val-intel" class="font-orbitron font-bold text-cyber-purple">25</span>
+                                <span id="val-intel" class="font-orbitron font-bold text-cyber-purple">15</span>
                             </div>
-                            <input type="range" min="5" max="70" value="25" class="w-full accent-cyber-purple cursor-pointer" id="stat-intel" oninput="updateStats()">
-                            <div class="text-xs text-cyber-purple mt-2">Mana maximal généré : <span id="preview-max-mana" class="font-bold">125</span> PM</div>
+                            <input type="range" min="5" max="40" value="15" class="w-full accent-cyber-purple cursor-pointer" id="stat-intel" oninput="updateStats()">
+                            <div class="text-xs text-cyber-purple mt-2">Mana maximal généré : <span id="preview-max-mana" class="font-bold">95</span> PM</div>
                         </div>
                     </div>
 
@@ -268,29 +268,29 @@
                     </div>
                 </div>
 
-                <!-- STEP 3: SKILLS SETUP -->
+                <!-- STEP 3: SKILLS OVERVIEW (FIXED) -->
                 <div id="step-3" class="hidden space-y-6">
                     <h3 class="text-lg font-bold text-cyber-neon flex items-center">
                         <span class="w-7 h-7 rounded-full bg-cyber-neon/20 border border-cyber-neon text-cyber-neon flex items-center justify-center text-sm mr-3 font-orbitron">3</span>
-                        Arsenal & Compétences Spéciales
+                        Arsenal &amp; Compétences Spéciales
                     </h3>
-                    <p class="text-xs text-gray-400">Configurez les 3 attaques spéciales de votre combattant, leur coût en Mana (PM) et leur temps de recharge (Cooldowns en tours).</p>
+                    <p class="text-xs text-gray-400">Les compétences de votre combattant sont prédéfinies selon son archétype. Coûts en Mana et temps de recharge sont fixes.</p>
 
-                    <div class="space-y-4">
+                    <div class="space-y-4" id="skills-display-container">
                         <!-- Skill 1 -->
                         <div class="bg-cyber-dark/60 p-4 rounded-xl border border-cyber-border space-y-3">
                             <div class="flex items-center justify-between">
                                 <span class="text-xs font-bold text-cyber-neon uppercase">Compétence 1 (Légère)</span>
                             </div>
-                            <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
-                                <input type="text" id="skill-1-name" value="Frappe Éclair" class="bg-cyber-card border border-cyber-border rounded-lg px-3 py-2 text-sm text-white">
+                            <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 items-center">
+                                <div class="bg-cyber-card border border-cyber-border rounded-lg px-3 py-2 text-sm text-white font-semibold" id="skill-1-display">Poing d'Acier</div>
                                 <div>
                                     <label class="text-[10px] text-gray-400 block mb-1">Coût PM</label>
-                                    <input type="number" id="skill-1-cost" value="15" class="w-full bg-cyber-card border border-cyber-border rounded-lg px-3 py-2 text-sm text-white">
+                                    <div class="w-full bg-cyber-card border border-cyber-border rounded-lg px-3 py-2 text-sm text-cyber-purple font-bold"><i class="fa-solid fa-lock text-gray-600 mr-1"></i>15 PM</div>
                                 </div>
                                 <div>
                                     <label class="text-[10px] text-gray-400 block mb-1">Recharge (Tours)</label>
-                                    <input type="number" id="skill-1-cd" value="0" class="w-full bg-cyber-card border border-cyber-border rounded-lg px-3 py-2 text-sm text-white">
+                                    <div class="w-full bg-cyber-card border border-cyber-border rounded-lg px-3 py-2 text-sm text-gray-300"><i class="fa-solid fa-lock text-gray-600 mr-1"></i>0 tour</div>
                                 </div>
                             </div>
                         </div>
@@ -300,15 +300,15 @@
                             <div class="flex items-center justify-between">
                                 <span class="text-xs font-bold text-cyber-purple uppercase">Compétence 2 (Puissante)</span>
                             </div>
-                            <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
-                                <input type="text" id="skill-2-name" value="Canon Plasma" class="bg-cyber-card border border-cyber-border rounded-lg px-3 py-2 text-sm text-white">
+                            <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 items-center">
+                                <div class="bg-cyber-card border border-cyber-border rounded-lg px-3 py-2 text-sm text-white font-semibold" id="skill-2-display">Choc Sismique</div>
                                 <div>
                                     <label class="text-[10px] text-gray-400 block mb-1">Coût PM</label>
-                                    <input type="number" id="skill-2-cost" value="35" class="w-full bg-cyber-card border border-cyber-border rounded-lg px-3 py-2 text-sm text-white">
+                                    <div class="w-full bg-cyber-card border border-cyber-border rounded-lg px-3 py-2 text-sm text-cyber-purple font-bold"><i class="fa-solid fa-lock text-gray-600 mr-1"></i>35 PM</div>
                                 </div>
                                 <div>
                                     <label class="text-[10px] text-gray-400 block mb-1">Recharge (Tours)</label>
-                                    <input type="number" id="skill-2-cd" value="1" class="w-full bg-cyber-card border border-cyber-border rounded-lg px-3 py-2 text-sm text-white">
+                                    <div class="w-full bg-cyber-card border border-cyber-border rounded-lg px-3 py-2 text-sm text-gray-300"><i class="fa-solid fa-lock text-gray-600 mr-1"></i>1 tour</div>
                                 </div>
                             </div>
                         </div>
@@ -318,15 +318,15 @@
                             <div class="flex items-center justify-between">
                                 <span class="text-xs font-bold text-cyber-pink uppercase">Compétence 3 (Ultime / Dévastatrice)</span>
                             </div>
-                            <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
-                                <input type="text" id="skill-3-name" value="Orbite Zéro Absolu" class="bg-cyber-card border border-cyber-border rounded-lg px-3 py-2 text-sm text-white">
+                            <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 items-center">
+                                <div class="bg-cyber-card border border-cyber-border rounded-lg px-3 py-2 text-sm text-white font-semibold" id="skill-3-display">Impact Titan</div>
                                 <div>
                                     <label class="text-[10px] text-gray-400 block mb-1">Coût PM</label>
-                                    <input type="number" id="skill-3-cost" value="60" class="w-full bg-cyber-card border border-cyber-border rounded-lg px-3 py-2 text-sm text-white">
+                                    <div class="w-full bg-cyber-card border border-cyber-border rounded-lg px-3 py-2 text-sm text-cyber-purple font-bold"><i class="fa-solid fa-lock text-gray-600 mr-1"></i>60 PM</div>
                                 </div>
                                 <div>
                                     <label class="text-[10px] text-gray-400 block mb-1">Recharge (Tours)</label>
-                                    <input type="number" id="skill-3-cd" value="3" class="w-full bg-cyber-card border border-cyber-border rounded-lg px-3 py-2 text-sm text-white">
+                                    <div class="w-full bg-cyber-card border border-cyber-border rounded-lg px-3 py-2 text-sm text-gray-300"><i class="fa-solid fa-lock text-gray-600 mr-1"></i>3 tours</div>
                                 </div>
                             </div>
                         </div>
@@ -337,7 +337,7 @@
                             <i class="fa-solid fa-arrow-left mr-2">Retour</i>
                         </button>
                         <button onclick="saveAndEnterArena()" class="px-8 py-3 rounded-xl bg-gradient-to-r from-cyber-neon to-cyber-purple text-black font-extrabold shadow-neon hover:opacity-90 transition transform hover:-translate-y-0.5">
-                            <i class="fa-solid fa-fire mr-2"></i>Valider & Entrer dans l'Arène
+                            <i class="fa-solid fa-fire mr-2"></i>Valider &amp; Entrer dans l'Arène
                         </button>
                     </div>
                 </div>
@@ -679,18 +679,18 @@
             name: "",
             universe: "",
             archetype: "cyber-brute",
-            strength: 25,
-            speed: 25,
-            defense: 25,
-            intel: 25,
+            strength: 15,
+            speed: 15,
+            defense: 15,
+            intel: 15,
             maxHp: 100,
-            maxMana: 125,
+            maxMana: 95,
             skills: []
         };
 
         let battleState = {
             playerHp: 100,
-            playerMana: 125,
+            playerMana: 95,
             enemyHp: 100,
             enemyMana: 100,
             round: 1,
@@ -727,7 +727,7 @@
             let intel = parseInt(document.getElementById('stat-intel').value);
 
             let total = str + spd + def + intel;
-            let left = 100 - total;
+            let left = 60 - total;
 
             document.getElementById('val-strength').innerText = str;
             document.getElementById('val-speed').innerText = spd;
@@ -759,23 +759,42 @@
             document.getElementById('avatar-preview-container').innerHTML = `<i class="fa-solid ${icon} text-5xl ${color}"></i>`;
         }
 
-        document.getElementById('char-archetype').addEventListener('change', updateAvatarPreview);
+        document.getElementById('char-archetype').addEventListener('change', () => {
+            updateAvatarPreview();
+            updateSkillDefaults();
+            loadedLegendSkills = null; // Reset legend skills when archetype changes
+        });
+
+        // Fixed skill definitions per archetype
+        const fixedSkills = {
+            'cyber-brute': [
+                { name: "Poing d'Acier", cost: 15, cdMax: 0 },
+                { name: "Choc Sismique", cost: 35, cdMax: 1 },
+                { name: "Impact Titan", cost: 60, cdMax: 3 }
+            ],
+            'bio-speed': [
+                { name: "Frappe Éclair", cost: 15, cdMax: 0 },
+                { name: "Tornade Foudroyante", cost: 35, cdMax: 1 },
+                { name: "Vitesse Lumière", cost: 60, cdMax: 3 }
+            ],
+            'mystic-intel': [
+                { name: "Orbe Mental", cost: 15, cdMax: 0 },
+                { name: "Vortex Arcanique", cost: 35, cdMax: 1 },
+                { name: "Singularité Cosmique", cost: 60, cdMax: 3 }
+            ],
+            'balanced': [
+                { name: "Coup Hybride", cost: 15, cdMax: 0 },
+                { name: "Salve Élémentaire", cost: 35, cdMax: 1 },
+                { name: "Nova Équilibrée", cost: 60, cdMax: 3 }
+            ]
+        };
 
         function updateSkillDefaults() {
             const arch = document.getElementById('char-archetype').value;
-            if (arch === 'cyber-brute') {
-                document.getElementById('skill-1-name').value = "Poing d'Acier";
-                document.getElementById('skill-2-name').value = "Choc Sismique";
-                document.getElementById('skill-3-name').value = "Impact Titan";
-            } else if (arch === 'bio-speed') {
-                document.getElementById('skill-1-name').value = "Frappe Éclair";
-                document.getElementById('skill-2-name').value = "Tornade Foudroyante";
-                document.getElementById('skill-3-name').value = "Vitesse Lumière";
-            } else if (arch === 'mystic-intel') {
-                document.getElementById('skill-1-name').value = "Orbe Mental";
-                document.getElementById('skill-2-name').value = "Vortex Arcanique";
-                document.getElementById('skill-3-name').value = "Singularité Cosmique";
-            }
+            const skills = fixedSkills[arch] || fixedSkills['balanced'];
+            document.getElementById('skill-1-display').innerText = skills[0].name;
+            document.getElementById('skill-2-display').innerText = skills[1].name;
+            document.getElementById('skill-3-display').innerText = skills[2].name;
         }
 
         // --- LEGENDS MODAL ---
@@ -805,30 +824,31 @@
             document.getElementById('legend-modal').classList.add('hidden');
         }
 
+        let loadedLegendSkills = null;
+
         function loadLegend(idx) {
             const leg = iconicLegends[idx];
+            // Store legend skills with fixed costs
+            loadedLegendSkills = [
+                { name: leg.skills[0].name, cost: 15, cdMax: 0 },
+                { name: leg.skills[1].name, cost: 35, cdMax: 1 },
+                { name: leg.skills[2].name, cost: 60, cdMax: 3 }
+            ];
             document.getElementById('char-name').value = leg.name;
             document.getElementById('char-universe').value = leg.universe;
             document.getElementById('char-archetype').value = leg.archetype;
             
-            document.getElementById('stat-strength').value = leg.strength;
-            document.getElementById('stat-speed').value = leg.speed;
-            document.getElementById('stat-defense').value = leg.defense;
-            document.getElementById('stat-intel').value = leg.intel;
+            document.getElementById('stat-strength').value = Math.min(40, leg.strength);
+            document.getElementById('stat-speed').value = Math.min(40, leg.speed);
+            document.getElementById('stat-defense').value = Math.min(40, leg.defense);
+            document.getElementById('stat-intel').value = Math.min(40, leg.intel);
 
             updateStats();
 
-            document.getElementById('skill-1-name').value = leg.skills[0].name;
-            document.getElementById('skill-1-cost').value = leg.skills[0].cost;
-            document.getElementById('skill-1-cd').value = leg.skills[0].cd;
-
-            document.getElementById('skill-2-name').value = leg.skills[1].name;
-            document.getElementById('skill-2-cost').value = leg.skills[1].cost;
-            document.getElementById('skill-2-cd').value = leg.skills[1].cd;
-
-            document.getElementById('skill-3-name').value = leg.skills[2].name;
-            document.getElementById('skill-3-cost').value = leg.skills[2].cost;
-            document.getElementById('skill-3-cd').value = leg.skills[2].cd;
+            // Update skill display names (read-only)
+            document.getElementById('skill-1-display').innerText = leg.skills[0].name;
+            document.getElementById('skill-2-display').innerText = leg.skills[1].name;
+            document.getElementById('skill-3-display').innerText = leg.skills[2].name;
 
             closeLegendModal();
             goToStep(1);
@@ -847,23 +867,14 @@
             currentCharacter.universe = document.getElementById('char-universe').value.trim() || "Univers Inconnu";
             currentCharacter.archetype = document.getElementById('char-archetype').value;
             currentCharacter.maxHp = 100 + (currentCharacter.defense * 2);
-            currentCharacter.skills = [
-                {
-                    name: document.getElementById('skill-1-name').value,
-                    cost: parseInt(document.getElementById('skill-1-cost').value) || 10,
-                    cdMax: parseInt(document.getElementById('skill-1-cd').value) || 0
-                },
-                {
-                    name: document.getElementById('skill-2-name').value,
-                    cost: parseInt(document.getElementById('skill-2-cost').value) || 25,
-                    cdMax: parseInt(document.getElementById('skill-2-cd').value) || 1
-                },
-                {
-                    name: document.getElementById('skill-3-name').value,
-                    cost: parseInt(document.getElementById('skill-3-cost').value) || 50,
-                    cdMax: parseInt(document.getElementById('skill-3-cd').value) || 3
-                }
-            ];
+            // Use legend skills if loaded, otherwise use fixed archetype skills
+            if (loadedLegendSkills) {
+                currentCharacter.skills = JSON.parse(JSON.stringify(loadedLegendSkills));
+                loadedLegendSkills = null; // Reset after use
+            } else {
+                const arch = currentCharacter.archetype;
+                currentCharacter.skills = JSON.parse(JSON.stringify(fixedSkills[arch] || fixedSkills['balanced']));
+            }
 
             // Save to LocalStorage Pantheon
             saveToPantheon(currentCharacter);

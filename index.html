@@ -227,34 +227,34 @@
                         <div class="bg-cyber-dark/60 p-4 rounded-xl border border-cyber-border">
                             <div class="flex justify-between mb-2">
                                 <span class="font-semibold text-sm flex items-center"><i class="fa-solid fa-fist-raised text-cyber-pink mr-2"></i>Force Physique (Dégâts des attaques)</span>
-                                <span id="val-strength" class="font-orbitron font-bold text-cyber-pink">15</span>
+                                <span id="val-strength" class="font-orbitron font-bold text-cyber-pink">0</span>
                             </div>
-                            <input type="range" min="5" max="40" value="15" class="w-full accent-cyber-pink cursor-pointer" id="stat-strength" oninput="updateStats()">
+                            <input type="range" min="0" max="60" value="0" class="w-full accent-cyber-pink cursor-pointer" id="stat-strength" oninput="updateStats()">
                         </div>
                         <!-- Vitesse -->
                         <div class="bg-cyber-dark/60 p-4 rounded-xl border border-cyber-border">
                             <div class="flex justify-between mb-2">
                                 <span class="font-semibold text-sm flex items-center"><i class="fa-solid fa-bolt text-cyber-neon mr-2"></i>Vitesse & Esquive (Ordre d'attaque)</span>
-                                <span id="val-speed" class="font-orbitron font-bold text-cyber-neon">15</span>
+                                <span id="val-speed" class="font-orbitron font-bold text-cyber-neon">0</span>
                             </div>
-                            <input type="range" min="5" max="40" value="15" class="w-full accent-cyber-neon cursor-pointer" id="stat-speed" oninput="updateStats()">
+                            <input type="range" min="0" max="60" value="0" class="w-full accent-cyber-neon cursor-pointer" id="stat-speed" oninput="updateStats()">
                         </div>
                         <!-- Défense -->
                         <div class="bg-cyber-dark/60 p-4 rounded-xl border border-cyber-border">
                             <div class="flex justify-between mb-2">
                                 <span class="font-semibold text-sm flex items-center"><i class="fa-solid fa-shield text-blue-400 mr-2"></i>Défense & Résistance (Réduction dégâts)</span>
-                                <span id="val-defense" class="font-orbitron font-bold text-blue-400">15</span>
+                                <span id="val-defense" class="font-orbitron font-bold text-blue-400">0</span>
                             </div>
-                            <input type="range" min="5" max="40" value="15" class="w-full accent-blue-400 cursor-pointer" id="stat-defense" oninput="updateStats()">
+                            <input type="range" min="0" max="60" value="0" class="w-full accent-blue-400 cursor-pointer" id="stat-defense" oninput="updateStats()">
                         </div>
                         <!-- Intelligence / Mana -->
                         <div class="bg-cyber-dark/60 p-4 rounded-xl border border-cyber-border">
                             <div class="flex justify-between mb-2">
                                 <span class="font-semibold text-sm flex items-center"><i class="fa-solid fa-brain text-cyber-purple mr-2"></i>Intelligence (Détermine la Mana PM max)</span>
-                                <span id="val-intel" class="font-orbitron font-bold text-cyber-purple">15</span>
+                                <span id="val-intel" class="font-orbitron font-bold text-cyber-purple">0</span>
                             </div>
-                            <input type="range" min="5" max="40" value="15" class="w-full accent-cyber-purple cursor-pointer" id="stat-intel" oninput="updateStats()">
-                            <div class="text-xs text-cyber-purple mt-2">Mana maximal généré : <span id="preview-max-mana" class="font-bold">95</span> PM</div>
+                            <input type="range" min="0" max="60" value="0" class="w-full accent-cyber-purple cursor-pointer" id="stat-intel" oninput="updateStats()">
+                            <div class="text-xs text-cyber-purple mt-2">Mana maximal généré : <span id="preview-max-mana" class="font-bold">50</span> PM</div>
                         </div>
                     </div>
 
@@ -501,7 +501,7 @@
                 name: "Goku Cyber-Saiyan",
                 universe: "Dragon Ball x Matrix",
                 archetype: "balanced",
-                strength: 40, speed: 35, defense: 15, intel: 10,
+                strength: 22, speed: 18, defense: 12, intel: 8,
                 skills: [
                     { name: "Poing Météore", cost: 15, cd: 0 },
                     { name: "Kamehameha Quantique", cost: 40, cd: 1 },
@@ -512,7 +512,7 @@
                 name: "Batman Arkham Nexus",
                 universe: "DC Comics",
                 archetype: "mystic-intel",
-                strength: 20, speed: 30, defense: 25, intel: 25,
+                strength: 12, speed: 14, defense: 14, intel: 20,
                 skills: [
                     { name: "Batarang Électrique", cost: 10, cd: 0 },
                     { name: "Pression Tactique", cost: 30, cd: 1 },
@@ -523,7 +523,7 @@
                 name: "Saitama One-Punch OS",
                 universe: "One Punch Man",
                 archetype: "cyber-brute",
-                strength: 65, speed: 20, defense: 10, intel: 5,
+                strength: 35, speed: 15, defense: 8, intel: 2,
                 skills: [
                     { name: "Série Normale de Coups", cost: 10, cd: 0 },
                     { name: "Série Sérieuse : Poing Solaire", cost: 45, cd: 2 },
@@ -534,7 +534,7 @@
                 name: "Dark Vador Protocol",
                 universe: "Star Wars Cyber",
                 archetype: "cyber-brute",
-                strength: 45, speed: 15, defense: 30, intel: 10,
+                strength: 20, speed: 8, defense: 18, intel: 14,
                 skills: [
                     { name: "Jet de Sabre Laser", cost: 15, cd: 0 },
                     { name: "Étranglement Quantique", cost: 35, cd: 1 },
@@ -545,7 +545,7 @@
                 name: "Luigino le Plombier Vert",
                 universe: "Royaume Champignon Cyber",
                 archetype: "balanced",
-                strength: 20, speed: 25, defense: 30, intel: 25,
+                strength: 12, speed: 18, defense: 10, intel: 20,
                 skills: [
                     { name: "Boule de Feu Émeraude", cost: 12, cd: 0 },
                     { name: "Aspirateur Spectral", cost: 30, cd: 1 },
@@ -556,7 +556,7 @@
                 name: "Vejita Prince Orbital",
                 universe: "Saga des Guerriers Stellaires",
                 archetype: "cyber-brute",
-                strength: 45, speed: 30, defense: 15, intel: 10,
+                strength: 22, speed: 18, defense: 10, intel: 10,
                 skills: [
                     { name: "Rafale de Ki Royal", cost: 15, cd: 0 },
                     { name: "Canon Galick Cosmique", cost: 40, cd: 1 },
@@ -567,7 +567,7 @@
                 name: "Yamura Loup du Désert",
                 universe: "Saga des Guerriers Stellaires",
                 archetype: "bio-speed",
-                strength: 20, speed: 35, defense: 15, intel: 30,
+                strength: 8, speed: 22, defense: 10, intel: 20,
                 skills: [
                     { name: "Croc du Loup Solitaire", cost: 10, cd: 0 },
                     { name: "Frappe Cyclone du Désert", cost: 28, cd: 1 },
@@ -578,7 +578,7 @@
                 name: "Kuririn Moine Astral",
                 universe: "Saga des Guerriers Stellaires",
                 archetype: "balanced",
-                strength: 20, speed: 30, defense: 25, intel: 25,
+                strength: 10, speed: 18, defense: 12, intel: 20,
                 skills: [
                     { name: "Disque Tranchant Solaire", cost: 18, cd: 0 },
                     { name: "Vague d'Énergie Sacrée", cost: 35, cd: 1 },
@@ -589,7 +589,7 @@
                 name: "Celluloid Bio-Parfait",
                 universe: "Saga des Guerriers Stellaires",
                 archetype: "cyber-brute",
-                strength: 50, speed: 20, defense: 20, intel: 10,
+                strength: 20, speed: 15, defense: 15, intel: 10,
                 skills: [
                     { name: "Absorption Cellulaire", cost: 15, cd: 0 },
                     { name: "Kamehameha Copié", cost: 40, cd: 1 },
@@ -600,7 +600,7 @@
                 name: "Genoz Cyborg Incendiaire",
                 universe: "Héros pour le Fun",
                 archetype: "cyber-brute",
-                strength: 40, speed: 30, defense: 10, intel: 20,
+                strength: 22, speed: 20, defense: 5, intel: 13,
                 skills: [
                     { name: "Poing à Réaction", cost: 12, cd: 0 },
                     { name: "Incinération Mécanique", cost: 35, cd: 1 },
@@ -611,7 +611,7 @@
                 name: "Tatsumi Tornade Psychique",
                 universe: "Héros pour le Fun",
                 archetype: "mystic-intel",
-                strength: 10, speed: 20, defense: 15, intel: 55,
+                strength: 3, speed: 12, defense: 10, intel: 35,
                 skills: [
                     { name: "Projection Télékinésique", cost: 15, cd: 0 },
                     { name: "Tempête Psychique", cost: 40, cd: 1 },
@@ -622,7 +622,7 @@
                 name: "Remia l'Oni Azurée",
                 universe: "Chroniques du Manoir Parallèle",
                 archetype: "balanced",
-                strength: 25, speed: 25, defense: 20, intel: 30,
+                strength: 15, speed: 16, defense: 12, intel: 17,
                 skills: [
                     { name: "Chaînes Givrées", cost: 12, cd: 0 },
                     { name: "Fléau de l'Oni de Glace", cost: 35, cd: 1 },
@@ -633,7 +633,7 @@
                 name: "Ramia l'Oni Rosée",
                 universe: "Chroniques du Manoir Parallèle",
                 archetype: "mystic-intel",
-                strength: 15, speed: 20, defense: 20, intel: 45,
+                strength: 5, speed: 12, defense: 10, intel: 33,
                 skills: [
                     { name: "Bourrasque Tranchante", cost: 10, cd: 0 },
                     { name: "Vision Clairvoyante", cost: 30, cd: 1 },
@@ -644,7 +644,7 @@
                 name: "Elza Reine des Armures",
                 universe: "Guilde des Fées Stellaires",
                 archetype: "cyber-brute",
-                strength: 35, speed: 25, defense: 30, intel: 10,
+                strength: 18, speed: 14, defense: 20, intel: 8,
                 skills: [
                     { name: "Lame du Chevalier Céleste", cost: 12, cd: 0 },
                     { name: "Requip : Armure Foudroyante", cost: 35, cd: 1 },
@@ -655,7 +655,7 @@
                 name: "Rafi Chapeau de Paille",
                 universe: "Épopée des Océans Infinis",
                 archetype: "cyber-brute",
-                strength: 45, speed: 30, defense: 20, intel: 5,
+                strength: 25, speed: 18, defense: 14, intel: 3,
                 skills: [
                     { name: "Poing Élastique", cost: 10, cd: 0 },
                     { name: "Gatling Dévastateur", cost: 35, cd: 1 },
@@ -666,7 +666,7 @@
                 name: "Kirato Épéiste Noir",
                 universe: "Monde Virtuel Online",
                 archetype: "bio-speed",
-                strength: 30, speed: 35, defense: 15, intel: 20,
+                strength: 16, speed: 22, defense: 10, intel: 12,
                 skills: [
                     { name: "Double Lame Stellaire", cost: 12, cd: 0 },
                     { name: "Starburst Stream", cost: 38, cd: 1 },
@@ -679,18 +679,18 @@
             name: "",
             universe: "",
             archetype: "cyber-brute",
-            strength: 15,
-            speed: 15,
-            defense: 15,
-            intel: 15,
+            strength: 0,
+            speed: 0,
+            defense: 0,
+            intel: 0,
             maxHp: 100,
-            maxMana: 95,
+            maxMana: 50,
             skills: []
         };
 
         let battleState = {
             playerHp: 100,
-            playerMana: 95,
+            playerMana: 50,
             enemyHp: 100,
             enemyMana: 100,
             round: 1,
@@ -720,20 +720,71 @@
             if (step === 3) updateSkillDefaults();
         }
 
+        const MAX_POINTS = 60;
+
         function updateStats() {
-            let str = parseInt(document.getElementById('stat-strength').value);
-            let spd = parseInt(document.getElementById('stat-speed').value);
-            let def = parseInt(document.getElementById('stat-defense').value);
-            let intel = parseInt(document.getElementById('stat-intel').value);
+            const sliders = {
+                strength: document.getElementById('stat-strength'),
+                speed: document.getElementById('stat-speed'),
+                defense: document.getElementById('stat-defense'),
+                intel: document.getElementById('stat-intel')
+            };
+
+            let str = parseInt(sliders.strength.value);
+            let spd = parseInt(sliders.speed.value);
+            let def = parseInt(sliders.defense.value);
+            let intel = parseInt(sliders.intel.value);
 
             let total = str + spd + def + intel;
-            let left = 60 - total;
+
+            // Bloquer si on dépasse la limite : on clamp le slider qui vient d'être bougé
+            if (total > MAX_POINTS) {
+                const overflow = total - MAX_POINTS;
+                // Identifier quel slider a été modifié (le dernier touché)
+                const active = document.activeElement;
+                if (active === sliders.strength) {
+                    str = Math.max(0, str - overflow);
+                    sliders.strength.value = str;
+                } else if (active === sliders.speed) {
+                    spd = Math.max(0, spd - overflow);
+                    sliders.speed.value = spd;
+                } else if (active === sliders.defense) {
+                    def = Math.max(0, def - overflow);
+                    sliders.defense.value = def;
+                } else if (active === sliders.intel) {
+                    intel = Math.max(0, intel - overflow);
+                    sliders.intel.value = intel;
+                } else {
+                    // Fallback: réduire le dernier
+                    intel = Math.max(0, intel - overflow);
+                    sliders.intel.value = intel;
+                }
+                total = str + spd + def + intel;
+            }
+
+            let left = MAX_POINTS - total;
+
+            // Mettre à jour le max dynamique de chaque slider
+            sliders.strength.max = str + left;
+            sliders.speed.max = spd + left;
+            sliders.defense.max = def + left;
+            sliders.intel.max = intel + left;
 
             document.getElementById('val-strength').innerText = str;
             document.getElementById('val-speed').innerText = spd;
             document.getElementById('val-defense').innerText = def;
             document.getElementById('val-intel').innerText = intel;
             document.getElementById('points-left').innerText = left;
+
+            // Couleur du compteur de points
+            const pointsEl = document.getElementById('points-left');
+            if (left === 0) {
+                pointsEl.classList.remove('text-cyber-pink');
+                pointsEl.classList.add('text-red-500');
+            } else {
+                pointsEl.classList.remove('text-red-500');
+                pointsEl.classList.add('text-cyber-pink');
+            }
 
             // Intelligence scales max Mana
             let calculatedMana = 50 + (intel * 3);
@@ -838,10 +889,10 @@
             document.getElementById('char-universe').value = leg.universe;
             document.getElementById('char-archetype').value = leg.archetype;
             
-            document.getElementById('stat-strength').value = Math.min(40, leg.strength);
-            document.getElementById('stat-speed').value = Math.min(40, leg.speed);
-            document.getElementById('stat-defense').value = Math.min(40, leg.defense);
-            document.getElementById('stat-intel').value = Math.min(40, leg.intel);
+            document.getElementById('stat-strength').value = leg.strength;
+            document.getElementById('stat-speed').value = leg.speed;
+            document.getElementById('stat-defense').value = leg.defense;
+            document.getElementById('stat-intel').value = leg.intel;
 
             updateStats();
 

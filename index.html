@@ -89,6 +89,9 @@
                 <button onclick="switchView('pantheon')" class="px-4 py-2 rounded-lg text-sm font-semibold transition hover:bg-cyber-border text-gray-300 hover:text-cyber-pink">
                     <i class="fa-solid fa-trophy mr-2"></i>Panthéon (<span id="pantheon-count">0</span>)
                 </button>
+                <button onclick="startTournament()" class="px-4 py-2 rounded-lg text-sm font-semibold transition bg-cyber-yellow/10 border border-cyber-yellow/30 text-cyber-yellow hover:bg-cyber-yellow/20">
+                    <i class="fa-solid fa-crown mr-2"></i>Tournoi
+                </button>
             </nav>
         </div>
     </header>
@@ -216,11 +219,11 @@
                             Répartition des Attributs & Mana
                         </h3>
                         <div class="px-3 py-1 rounded-lg bg-cyber-card border border-cyber-border text-sm">
-                            Points restants : <span id="points-left" class="font-bold text-cyber-pink">60</span>
+                            Points restants : <span id="points-left" class="font-bold text-cyber-pink">100</span>
                         </div>
                     </div>
 
-                    <p class="text-xs text-gray-400">Distribuez vos points (total 60 max). L'Intelligence détermine directement votre réserve de Mana (PM).</p>
+                    <p class="text-xs text-gray-400">Distribuez vos points (total 100 max). L'Intelligence détermine directement votre réserve de Mana (PM).</p>
 
                     <div class="space-y-4">
                         <!-- Force -->
@@ -229,7 +232,7 @@
                                 <span class="font-semibold text-sm flex items-center"><i class="fa-solid fa-fist-raised text-cyber-pink mr-2"></i>Force Physique (Dégâts des attaques)</span>
                                 <span id="val-strength" class="font-orbitron font-bold text-cyber-pink">0</span>
                             </div>
-                            <input type="range" min="0" max="60" value="0" class="w-full accent-cyber-pink cursor-pointer" id="stat-strength" oninput="updateStats()">
+                            <input type="range" min="0" max="80" value="0" class="w-full accent-cyber-pink cursor-pointer" id="stat-strength" oninput="updateStats()">
                         </div>
                         <!-- Vitesse -->
                         <div class="bg-cyber-dark/60 p-4 rounded-xl border border-cyber-border">
@@ -237,7 +240,7 @@
                                 <span class="font-semibold text-sm flex items-center"><i class="fa-solid fa-bolt text-cyber-neon mr-2"></i>Vitesse & Esquive (Ordre d'attaque)</span>
                                 <span id="val-speed" class="font-orbitron font-bold text-cyber-neon">0</span>
                             </div>
-                            <input type="range" min="0" max="60" value="0" class="w-full accent-cyber-neon cursor-pointer" id="stat-speed" oninput="updateStats()">
+                            <input type="range" min="0" max="80" value="0" class="w-full accent-cyber-neon cursor-pointer" id="stat-speed" oninput="updateStats()">
                         </div>
                         <!-- Défense -->
                         <div class="bg-cyber-dark/60 p-4 rounded-xl border border-cyber-border">
@@ -245,7 +248,7 @@
                                 <span class="font-semibold text-sm flex items-center"><i class="fa-solid fa-shield text-blue-400 mr-2"></i>Défense & Résistance (Réduction dégâts)</span>
                                 <span id="val-defense" class="font-orbitron font-bold text-blue-400">0</span>
                             </div>
-                            <input type="range" min="0" max="60" value="0" class="w-full accent-blue-400 cursor-pointer" id="stat-defense" oninput="updateStats()">
+                            <input type="range" min="0" max="80" value="0" class="w-full accent-blue-400 cursor-pointer" id="stat-defense" oninput="updateStats()">
                         </div>
                         <!-- Intelligence / Mana -->
                         <div class="bg-cyber-dark/60 p-4 rounded-xl border border-cyber-border">
@@ -253,7 +256,7 @@
                                 <span class="font-semibold text-sm flex items-center"><i class="fa-solid fa-brain text-cyber-purple mr-2"></i>Intelligence (Détermine la Mana PM max)</span>
                                 <span id="val-intel" class="font-orbitron font-bold text-cyber-purple">0</span>
                             </div>
-                            <input type="range" min="0" max="60" value="0" class="w-full accent-cyber-purple cursor-pointer" id="stat-intel" oninput="updateStats()">
+                            <input type="range" min="0" max="80" value="0" class="w-full accent-cyber-purple cursor-pointer" id="stat-intel" oninput="updateStats()">
                             <div class="text-xs text-cyber-purple mt-2">Mana maximal généré : <span id="preview-max-mana" class="font-bold">50</span> PM</div>
                         </div>
                     </div>
@@ -355,6 +358,12 @@
                     <span class="px-4 py-1 rounded-full bg-cyber-pink/20 border border-cyber-pink/40 text-cyber-pink text-xs font-bold tracking-widest uppercase">
                         Simulation de Combat Tactique
                     </span>
+                    <div id="tournament-banner" class="hidden mt-2 px-4 py-2 rounded-xl bg-gradient-to-r from-cyber-yellow/20 to-amber-500/20 border border-cyber-yellow/40 inline-flex items-center gap-3">
+                        <i class="fa-solid fa-crown text-cyber-yellow"></i>
+                        <span class="text-cyber-yellow font-orbitron font-bold text-sm">TOURNOI — Match <span id="tournament-match">1</span> / <span id="tournament-total">5</span></span>
+                        <span class="text-xs text-gray-300">|</span>
+                        <span class="text-xs text-emerald-400 font-bold"><i class="fa-solid fa-star mr-1"></i>Points bonus : +<span id="tournament-bonus">0</span></span>
+                    </div>
                     <h2 class="text-2xl font-black mt-2 font-orbitron">TOUR <span id="battle-round">1</span></h2>
                 </div>
 
@@ -501,7 +510,7 @@
                 name: "Goku Cyber-Saiyan",
                 universe: "Dragon Ball x Matrix",
                 archetype: "balanced",
-                strength: 22, speed: 18, defense: 12, intel: 8,
+                strength: 35, speed: 30, defense: 20, intel: 15,
                 skills: [
                     { name: "Poing Météore", cost: 15, cd: 0 },
                     { name: "Kamehameha Quantique", cost: 40, cd: 1 },
@@ -512,7 +521,7 @@
                 name: "Batman Arkham Nexus",
                 universe: "DC Comics",
                 archetype: "mystic-intel",
-                strength: 12, speed: 14, defense: 14, intel: 20,
+                strength: 18, speed: 22, defense: 25, intel: 35,
                 skills: [
                     { name: "Batarang Électrique", cost: 10, cd: 0 },
                     { name: "Pression Tactique", cost: 30, cd: 1 },
@@ -523,7 +532,7 @@
                 name: "Saitama One-Punch OS",
                 universe: "One Punch Man",
                 archetype: "cyber-brute",
-                strength: 35, speed: 15, defense: 8, intel: 2,
+                strength: 60, speed: 25, defense: 12, intel: 3,
                 skills: [
                     { name: "Série Normale de Coups", cost: 10, cd: 0 },
                     { name: "Série Sérieuse : Poing Solaire", cost: 45, cd: 2 },
@@ -534,7 +543,7 @@
                 name: "Dark Vador Protocol",
                 universe: "Star Wars Cyber",
                 archetype: "cyber-brute",
-                strength: 20, speed: 8, defense: 18, intel: 14,
+                strength: 30, speed: 12, defense: 32, intel: 26,
                 skills: [
                     { name: "Jet de Sabre Laser", cost: 15, cd: 0 },
                     { name: "Étranglement Quantique", cost: 35, cd: 1 },
@@ -545,7 +554,7 @@
                 name: "Luigino le Plombier Vert",
                 universe: "Royaume Champignon Cyber",
                 archetype: "balanced",
-                strength: 12, speed: 18, defense: 10, intel: 20,
+                strength: 20, speed: 28, defense: 18, intel: 34,
                 skills: [
                     { name: "Boule de Feu Émeraude", cost: 12, cd: 0 },
                     { name: "Aspirateur Spectral", cost: 30, cd: 1 },
@@ -556,7 +565,7 @@
                 name: "Vejita Prince Orbital",
                 universe: "Saga des Guerriers Stellaires",
                 archetype: "cyber-brute",
-                strength: 22, speed: 18, defense: 10, intel: 10,
+                strength: 38, speed: 28, defense: 18, intel: 16,
                 skills: [
                     { name: "Rafale de Ki Royal", cost: 15, cd: 0 },
                     { name: "Canon Galick Cosmique", cost: 40, cd: 1 },
@@ -567,7 +576,7 @@
                 name: "Yamura Loup du Désert",
                 universe: "Saga des Guerriers Stellaires",
                 archetype: "bio-speed",
-                strength: 8, speed: 22, defense: 10, intel: 20,
+                strength: 14, speed: 35, defense: 18, intel: 33,
                 skills: [
                     { name: "Croc du Loup Solitaire", cost: 10, cd: 0 },
                     { name: "Frappe Cyclone du Désert", cost: 28, cd: 1 },
@@ -578,7 +587,7 @@
                 name: "Kuririn Moine Astral",
                 universe: "Saga des Guerriers Stellaires",
                 archetype: "balanced",
-                strength: 10, speed: 18, defense: 12, intel: 20,
+                strength: 18, speed: 28, defense: 20, intel: 34,
                 skills: [
                     { name: "Disque Tranchant Solaire", cost: 18, cd: 0 },
                     { name: "Vague d'Énergie Sacrée", cost: 35, cd: 1 },
@@ -589,7 +598,7 @@
                 name: "Celluloid Bio-Parfait",
                 universe: "Saga des Guerriers Stellaires",
                 archetype: "cyber-brute",
-                strength: 20, speed: 15, defense: 15, intel: 10,
+                strength: 32, speed: 25, defense: 25, intel: 18,
                 skills: [
                     { name: "Absorption Cellulaire", cost: 15, cd: 0 },
                     { name: "Kamehameha Copié", cost: 40, cd: 1 },
@@ -600,7 +609,7 @@
                 name: "Genoz Cyborg Incendiaire",
                 universe: "Héros pour le Fun",
                 archetype: "cyber-brute",
-                strength: 22, speed: 20, defense: 5, intel: 13,
+                strength: 35, speed: 32, defense: 10, intel: 23,
                 skills: [
                     { name: "Poing à Réaction", cost: 12, cd: 0 },
                     { name: "Incinération Mécanique", cost: 35, cd: 1 },
@@ -611,7 +620,7 @@
                 name: "Tatsumi Tornade Psychique",
                 universe: "Héros pour le Fun",
                 archetype: "mystic-intel",
-                strength: 3, speed: 12, defense: 10, intel: 35,
+                strength: 5, speed: 18, defense: 15, intel: 62,
                 skills: [
                     { name: "Projection Télékinésique", cost: 15, cd: 0 },
                     { name: "Tempête Psychique", cost: 40, cd: 1 },
@@ -622,7 +631,7 @@
                 name: "Remia l'Oni Azurée",
                 universe: "Chroniques du Manoir Parallèle",
                 archetype: "balanced",
-                strength: 15, speed: 16, defense: 12, intel: 17,
+                strength: 25, speed: 25, defense: 20, intel: 30,
                 skills: [
                     { name: "Chaînes Givrées", cost: 12, cd: 0 },
                     { name: "Fléau de l'Oni de Glace", cost: 35, cd: 1 },
@@ -633,7 +642,7 @@
                 name: "Ramia l'Oni Rosée",
                 universe: "Chroniques du Manoir Parallèle",
                 archetype: "mystic-intel",
-                strength: 5, speed: 12, defense: 10, intel: 33,
+                strength: 8, speed: 20, defense: 15, intel: 57,
                 skills: [
                     { name: "Bourrasque Tranchante", cost: 10, cd: 0 },
                     { name: "Vision Clairvoyante", cost: 30, cd: 1 },
@@ -644,7 +653,7 @@
                 name: "Elza Reine des Armures",
                 universe: "Guilde des Fées Stellaires",
                 archetype: "cyber-brute",
-                strength: 18, speed: 14, defense: 20, intel: 8,
+                strength: 30, speed: 22, defense: 35, intel: 13,
                 skills: [
                     { name: "Lame du Chevalier Céleste", cost: 12, cd: 0 },
                     { name: "Requip : Armure Foudroyante", cost: 35, cd: 1 },
@@ -655,7 +664,7 @@
                 name: "Rafi Chapeau de Paille",
                 universe: "Épopée des Océans Infinis",
                 archetype: "cyber-brute",
-                strength: 25, speed: 18, defense: 14, intel: 3,
+                strength: 42, speed: 30, defense: 23, intel: 5,
                 skills: [
                     { name: "Poing Élastique", cost: 10, cd: 0 },
                     { name: "Gatling Dévastateur", cost: 35, cd: 1 },
@@ -666,7 +675,7 @@
                 name: "Kirato Épéiste Noir",
                 universe: "Monde Virtuel Online",
                 archetype: "bio-speed",
-                strength: 16, speed: 22, defense: 10, intel: 12,
+                strength: 28, speed: 35, defense: 15, intel: 22,
                 skills: [
                     { name: "Double Lame Stellaire", cost: 12, cd: 0 },
                     { name: "Starburst Stream", cost: 38, cd: 1 },
@@ -720,7 +729,8 @@
             if (step === 3) updateSkillDefaults();
         }
 
-        const MAX_POINTS = 60;
+        const MAX_POINTS = 100;
+        const MAX_PER_STAT = 80;
 
         function updateStats() {
             const sliders = {
@@ -737,10 +747,9 @@
 
             let total = str + spd + def + intel;
 
-            // Bloquer si on dépasse la limite : on clamp le slider qui vient d'être bougé
+            // Bloquer le slider actif si on dépasse le budget total
             if (total > MAX_POINTS) {
                 const overflow = total - MAX_POINTS;
-                // Identifier quel slider a été modifié (le dernier touché)
                 const active = document.activeElement;
                 if (active === sliders.strength) {
                     str = Math.max(0, str - overflow);
@@ -755,7 +764,6 @@
                     intel = Math.max(0, intel - overflow);
                     sliders.intel.value = intel;
                 } else {
-                    // Fallback: réduire le dernier
                     intel = Math.max(0, intel - overflow);
                     sliders.intel.value = intel;
                 }
@@ -764,11 +772,11 @@
 
             let left = MAX_POINTS - total;
 
-            // Mettre à jour le max dynamique de chaque slider
-            sliders.strength.max = str + left;
-            sliders.speed.max = spd + left;
-            sliders.defense.max = def + left;
-            sliders.intel.max = intel + left;
+            // Chaque slider est indépendant : son max = min(80, sa valeur + pts restants)
+            sliders.strength.max = Math.min(MAX_PER_STAT, str + left);
+            sliders.speed.max = Math.min(MAX_PER_STAT, spd + left);
+            sliders.defense.max = Math.min(MAX_PER_STAT, def + left);
+            sliders.intel.max = Math.min(MAX_PER_STAT, intel + left);
 
             document.getElementById('val-strength').innerText = str;
             document.getElementById('val-speed').innerText = spd;
@@ -1153,13 +1161,159 @@
             }
         }
 
+        // --- TOURNAMENT SYSTEM ---
+        let tournamentState = {
+            active: false,
+            currentMatch: 0,
+            totalMatches: 5,
+            bonusPoints: 0,
+            victories: 0,
+            opponents: [],
+            originalStats: null
+        };
+
+        function startTournament() {
+            const name = currentCharacter.name;
+            if (!name || name === '') {
+                alert("Créez d'abord un combattant dans le Laboratoire avant de lancer un Tournoi !");
+                switchView('studio');
+                return;
+            }
+
+            // Check if character has stats
+            const totalStats = currentCharacter.strength + currentCharacter.speed + currentCharacter.defense + currentCharacter.intel;
+            if (totalStats === 0) {
+                alert("Votre combattant n'a aucun point de stats ! Configurez-le d'abord.");
+                switchView('studio');
+                return;
+            }
+
+            // Shuffle legends for tournament opponents
+            const shuffled = [...iconicLegends].sort(() => Math.random() - 0.5);
+            tournamentState = {
+                active: true,
+                currentMatch: 1,
+                totalMatches: 5,
+                bonusPoints: 0,
+                victories: 0,
+                opponents: shuffled.slice(0, 5),
+                originalStats: {
+                    strength: currentCharacter.strength,
+                    speed: currentCharacter.speed,
+                    defense: currentCharacter.defense,
+                    intel: currentCharacter.intel
+                }
+            };
+
+            logMessage('<span class="text-cyber-yellow font-bold">[TOURNOI] Le tournoi commence ! 5 combats vous attendent. Gagnez des points bonus à chaque victoire !</span>');
+            setupTournamentMatch();
+        }
+
+        function setupTournamentMatch() {
+            document.getElementById('tournament-banner').classList.remove('hidden');
+            document.getElementById('tournament-match').innerText = tournamentState.currentMatch;
+            document.getElementById('tournament-total').innerText = tournamentState.totalMatches;
+            document.getElementById('tournament-bonus').innerText = tournamentState.bonusPoints;
+
+            const opponent = tournamentState.opponents[tournamentState.currentMatch - 1];
+
+            // Scale enemy difficulty based on match number
+            const diffScale = 1 + (tournamentState.currentMatch - 1) * 0.15;
+
+            battleState.playerHp = currentCharacter.maxHp;
+            battleState.playerMana = currentCharacter.maxMana;
+            battleState.round = 1;
+            battleState.playerCd = [0, 0, 0];
+            battleState.enemyCd = [0, 0, 0];
+
+            battleState.enemyData = {
+                name: opponent.name + " (Tournoi #" + tournamentState.currentMatch + ")",
+                universe: opponent.universe,
+                hp: Math.round(100 * diffScale),
+                maxHp: Math.round(100 * diffScale),
+                mana: Math.round(100 * diffScale),
+                maxMana: Math.round(100 * diffScale),
+                strength: Math.round(opponent.strength * diffScale),
+                speed: opponent.speed,
+                skills: opponent.skills
+            };
+
+            battleState.enemyHp = battleState.enemyData.hp;
+            battleState.enemyMana = battleState.enemyData.mana;
+            battleState.isPlayerTurn = true;
+
+            document.getElementById('arena-player-name').innerText = currentCharacter.name;
+            document.getElementById('arena-player-universe').innerText = currentCharacter.universe;
+            document.getElementById('arena-enemy-name').innerText = battleState.enemyData.name;
+            document.getElementById('arena-enemy-universe').innerText = battleState.enemyData.universe;
+
+            document.getElementById('combat-logs').innerHTML = '';
+            logMessage('<span class="text-cyber-yellow">[TOURNOI] Match ' + tournamentState.currentMatch + '/' + tournamentState.totalMatches + ' — ' + currentCharacter.name + ' VS ' + battleState.enemyData.name + '</span>');
+
+            updateBattleUI();
+            switchView('arena');
+        }
+
+        function showTournamentUpgrade() {
+            const bonus = 5 + tournamentState.currentMatch * 2; // +7, +9, +11, +13, +15
+            tournamentState.bonusPoints += bonus;
+            tournamentState.victories++;
+
+            // Apply bonus: distribute evenly, player can see the boost
+            const perStat = Math.floor(bonus / 4);
+            const remainder = bonus % 4;
+            currentCharacter.strength += perStat + (remainder > 0 ? 1 : 0);
+            currentCharacter.speed += perStat + (remainder > 1 ? 1 : 0);
+            currentCharacter.defense += perStat + (remainder > 2 ? 1 : 0);
+            currentCharacter.intel += perStat;
+            currentCharacter.maxMana = 50 + (currentCharacter.intel * 3);
+            currentCharacter.maxHp = 100 + (currentCharacter.defense * 2);
+
+            const msg = `🏆 Victoire au match ${tournamentState.currentMatch} ! Vous gagnez +${bonus} points de stats (répartis automatiquement). Total bonus accumulé : +${tournamentState.bonusPoints}`;
+
+            if (tournamentState.currentMatch < tournamentState.totalMatches) {
+                tournamentState.currentMatch++;
+                alert(msg + "\n\nProchain adversaire en approche...");
+                setupTournamentMatch();
+            } else {
+                // Tournament complete!
+                tournamentState.active = false;
+                document.getElementById('tournament-banner').classList.add('hidden');
+                alert("🎉 TOURNOI TERMINÉ !\n\n" + 
+                    `Victoires : ${tournamentState.victories}/${tournamentState.totalMatches}\n` +
+                    `Points bonus gagnés : +${tournamentState.bonusPoints}\n\n` +
+                    "Votre combattant a été amélioré et sauvegardé !");
+                saveToPantheon(currentCharacter);
+                switchView('pantheon');
+            }
+        }
+
         function battleEnd(isVictory) {
             if (isVictory) {
                 logMessage(`<span class="text-emerald-400 font-bold">[VICTORIEUX] ${currentCharacter.name} a triomphé de son adversaire avec brio !</span>`);
+                if (tournamentState.active) {
+                    setTimeout(() => showTournamentUpgrade(), 500);
+                    return;
+                }
                 alert(`Victoire éclatante ! Votre combattant ${currentCharacter.name} remporte le combat.`);
             } else {
                 logMessage(`<span class="text-red-500 font-bold">[DÉFAITE] ${currentCharacter.name} a succombé au combat...</span>`);
-                alert(`Défaite... ${battleState.enemyData.name} était trop fort. Entraînez de nouvelles stats !`);
+                if (tournamentState.active) {
+                    tournamentState.active = false;
+                    document.getElementById('tournament-banner').classList.add('hidden');
+                    // Revert stats to original
+                    currentCharacter.strength = tournamentState.originalStats.strength;
+                    currentCharacter.speed = tournamentState.originalStats.speed;
+                    currentCharacter.defense = tournamentState.originalStats.defense;
+                    currentCharacter.intel = tournamentState.originalStats.intel;
+                    currentCharacter.maxMana = 50 + (currentCharacter.intel * 3);
+                    currentCharacter.maxHp = 100 + (currentCharacter.defense * 2);
+                    alert(`Tournoi terminé par défaite au match ${tournamentState.currentMatch}/${tournamentState.totalMatches}.\n` +
+                        `Victoires : ${tournamentState.victories}\n` +
+                        `Les bonus accumulés (${tournamentState.bonusPoints} pts) sont perdus. Réessayez !`);
+                } else {
+                    alert(`Défaite... ${battleState.enemyData.name} était trop fort. Entraînez de nouvelles stats !`);
+                }
             }
             switchView('pantheon');
         }

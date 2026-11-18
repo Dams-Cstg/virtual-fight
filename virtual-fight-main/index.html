@@ -63,6 +63,19 @@
         ::-webkit-scrollbar-thumb:hover {
             background: #00f0ff;
         }
+        .skill-card {
+            transition: all 0.2s;
+            cursor: pointer;
+        }
+        .skill-card:hover {
+            border-color: #00f0ff;
+            transform: translateY(-2px);
+        }
+        .skill-card.selected {
+            border-color: #00f0ff;
+            background: rgba(0, 240, 255, 0.1);
+            box-shadow: 0 0 15px rgba(0, 240, 255, 0.3);
+        }
     </style>
 </head>
 <body class="cyber-grid min-h-screen flex flex-col selection:bg-cyber-neon selection:text-black">
@@ -216,51 +229,51 @@
                             Répartition des Attributs & Mana
                         </h3>
                         <div class="px-3 py-1 rounded-lg bg-cyber-card border border-cyber-border text-sm">
-                            Points restants : <span id="points-left" class="font-bold text-cyber-pink">100</span>
+                            Points restants : <span id="points-left" class="font-bold text-cyber-pink">0</span>
                         </div>
                     </div>
 
-                    <p class="text-xs text-gray-400">Distribuez vos points (total 100 max). L'Intelligence détermine directement votre réserve de Mana (PM).</p>
+                    <p class="text-xs text-gray-400">Chaque stat est indépendante (max 40 chacune). Le total ne peut pas dépasser 100 points. L'Intelligence détermine votre Mana (PM).</p>
 
                     <div class="space-y-4">
                         <!-- Force -->
                         <div class="bg-cyber-dark/60 p-4 rounded-xl border border-cyber-border">
                             <div class="flex justify-between mb-2">
                                 <span class="font-semibold text-sm flex items-center"><i class="fa-solid fa-fist-raised text-cyber-pink mr-2"></i>Force Physique (Dégâts des attaques)</span>
-                                <span id="val-strength" class="font-orbitron font-bold text-cyber-pink">25</span>
+                                <span id="val-strength" class="font-orbitron font-bold text-cyber-pink">10</span>
                             </div>
-                            <input type="range" min="5" max="70" value="25" class="w-full accent-cyber-pink cursor-pointer" id="stat-strength" oninput="updateStats()">
+                            <input type="range" min="5" max="40" value="10" class="w-full accent-cyber-pink cursor-pointer" id="stat-strength" oninput="updateStats()">
                         </div>
                         <!-- Vitesse -->
                         <div class="bg-cyber-dark/60 p-4 rounded-xl border border-cyber-border">
                             <div class="flex justify-between mb-2">
                                 <span class="font-semibold text-sm flex items-center"><i class="fa-solid fa-bolt text-cyber-neon mr-2"></i>Vitesse & Esquive (Ordre d'attaque)</span>
-                                <span id="val-speed" class="font-orbitron font-bold text-cyber-neon">25</span>
+                                <span id="val-speed" class="font-orbitron font-bold text-cyber-neon">10</span>
                             </div>
-                            <input type="range" min="5" max="70" value="25" class="w-full accent-cyber-neon cursor-pointer" id="stat-speed" oninput="updateStats()">
+                            <input type="range" min="5" max="40" value="10" class="w-full accent-cyber-neon cursor-pointer" id="stat-speed" oninput="updateStats()">
                         </div>
                         <!-- Défense -->
                         <div class="bg-cyber-dark/60 p-4 rounded-xl border border-cyber-border">
                             <div class="flex justify-between mb-2">
                                 <span class="font-semibold text-sm flex items-center"><i class="fa-solid fa-shield text-blue-400 mr-2"></i>Défense & Résistance (Réduction dégâts)</span>
-                                <span id="val-defense" class="font-orbitron font-bold text-blue-400">25</span>
+                                <span id="val-defense" class="font-orbitron font-bold text-blue-400">10</span>
                             </div>
-                            <input type="range" min="5" max="70" value="25" class="w-full accent-blue-400 cursor-pointer" id="stat-defense" oninput="updateStats()">
+                            <input type="range" min="5" max="40" value="10" class="w-full accent-blue-400 cursor-pointer" id="stat-defense" oninput="updateStats()">
                         </div>
                         <!-- Intelligence / Mana -->
                         <div class="bg-cyber-dark/60 p-4 rounded-xl border border-cyber-border">
                             <div class="flex justify-between mb-2">
                                 <span class="font-semibold text-sm flex items-center"><i class="fa-solid fa-brain text-cyber-purple mr-2"></i>Intelligence (Détermine la Mana PM max)</span>
-                                <span id="val-intel" class="font-orbitron font-bold text-cyber-purple">25</span>
+                                <span id="val-intel" class="font-orbitron font-bold text-cyber-purple">10</span>
                             </div>
-                            <input type="range" min="5" max="70" value="25" class="w-full accent-cyber-purple cursor-pointer" id="stat-intel" oninput="updateStats()">
-                            <div class="text-xs text-cyber-purple mt-2">Mana maximal généré : <span id="preview-max-mana" class="font-bold">125</span> PM</div>
+                            <input type="range" min="5" max="40" value="10" class="w-full accent-cyber-purple cursor-pointer" id="stat-intel" oninput="updateStats()">
+                            <div class="text-xs text-cyber-purple mt-2">Mana maximal généré : <span id="preview-max-mana" class="font-bold">80</span> PM</div>
                         </div>
                     </div>
 
                     <div class="flex justify-between pt-4">
                         <button onclick="goToStep(1)" class="px-6 py-3 rounded-xl bg-cyber-dark border border-cyber-border text-white hover:border-gray-400 transition">
-                            <i class="fa-solid fa-arrow-left mr-2">Retour</i>
+                            <i class="fa-solid fa-arrow-left mr-2"></i>Retour
                         </button>
                         <button onclick="goToStep(3)" class="px-6 py-3 rounded-xl bg-cyber-neon text-black font-bold shadow-neon hover:opacity-90 transition">
                             Suivant : Compétences <i class="fa-solid fa-arrow-right ml-2"></i>
@@ -268,73 +281,26 @@
                     </div>
                 </div>
 
-                <!-- STEP 3: SKILLS SETUP -->
+                <!-- STEP 3: SKILL CATALOG SELECTION -->
                 <div id="step-3" class="hidden space-y-6">
-                    <h3 class="text-lg font-bold text-cyber-neon flex items-center">
-                        <span class="w-7 h-7 rounded-full bg-cyber-neon/20 border border-cyber-neon text-cyber-neon flex items-center justify-center text-sm mr-3 font-orbitron">3</span>
-                        Arsenal & Compétences Spéciales
-                    </h3>
-                    <p class="text-xs text-gray-400">Configurez les 3 attaques spéciales de votre combattant, leur coût en Mana (PM) et leur temps de recharge (Cooldowns en tours).</p>
-
-                    <div class="space-y-4">
-                        <!-- Skill 1 -->
-                        <div class="bg-cyber-dark/60 p-4 rounded-xl border border-cyber-border space-y-3">
-                            <div class="flex items-center justify-between">
-                                <span class="text-xs font-bold text-cyber-neon uppercase">Compétence 1 (Légère)</span>
-                            </div>
-                            <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
-                                <input type="text" id="skill-1-name" value="Frappe Éclair" class="bg-cyber-card border border-cyber-border rounded-lg px-3 py-2 text-sm text-white">
-                                <div>
-                                    <label class="text-[10px] text-gray-400 block mb-1">Coût PM</label>
-                                    <input type="number" id="skill-1-cost" value="15" class="w-full bg-cyber-card border border-cyber-border rounded-lg px-3 py-2 text-sm text-white">
-                                </div>
-                                <div>
-                                    <label class="text-[10px] text-gray-400 block mb-1">Recharge (Tours)</label>
-                                    <input type="number" id="skill-1-cd" value="0" class="w-full bg-cyber-card border border-cyber-border rounded-lg px-3 py-2 text-sm text-white">
-                                </div>
-                            </div>
+                    <div class="flex justify-between items-center">
+                        <h3 class="text-lg font-bold text-cyber-neon flex items-center">
+                            <span class="w-7 h-7 rounded-full bg-cyber-neon/20 border border-cyber-neon text-cyber-neon flex items-center justify-center text-sm mr-3 font-orbitron">3</span>
+                            Arsenal & Compétences Spéciales
+                        </h3>
+                        <div class="px-3 py-1 rounded-lg bg-cyber-card border border-cyber-border text-sm">
+                            Sélectionnées : <span id="skills-selected-count" class="font-bold text-cyber-neon">0</span> / 3
                         </div>
+                    </div>
+                    <p class="text-xs text-gray-400">Choisissez exactement 3 compétences dans le catalogue ci-dessous. Cliquez pour sélectionner / désélectionner. Votre combattant aura aussi une attaque de base gratuite en combat.</p>
 
-                        <!-- Skill 2 -->
-                        <div class="bg-cyber-dark/60 p-4 rounded-xl border border-cyber-border space-y-3">
-                            <div class="flex items-center justify-between">
-                                <span class="text-xs font-bold text-cyber-purple uppercase">Compétence 2 (Puissante)</span>
-                            </div>
-                            <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
-                                <input type="text" id="skill-2-name" value="Canon Plasma" class="bg-cyber-card border border-cyber-border rounded-lg px-3 py-2 text-sm text-white">
-                                <div>
-                                    <label class="text-[10px] text-gray-400 block mb-1">Coût PM</label>
-                                    <input type="number" id="skill-2-cost" value="35" class="w-full bg-cyber-card border border-cyber-border rounded-lg px-3 py-2 text-sm text-white">
-                                </div>
-                                <div>
-                                    <label class="text-[10px] text-gray-400 block mb-1">Recharge (Tours)</label>
-                                    <input type="number" id="skill-2-cd" value="1" class="w-full bg-cyber-card border border-cyber-border rounded-lg px-3 py-2 text-sm text-white">
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Skill 3 -->
-                        <div class="bg-cyber-dark/60 p-4 rounded-xl border border-cyber-border space-y-3">
-                            <div class="flex items-center justify-between">
-                                <span class="text-xs font-bold text-cyber-pink uppercase">Compétence 3 (Ultime / Dévastatrice)</span>
-                            </div>
-                            <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
-                                <input type="text" id="skill-3-name" value="Orbite Zéro Absolu" class="bg-cyber-card border border-cyber-border rounded-lg px-3 py-2 text-sm text-white">
-                                <div>
-                                    <label class="text-[10px] text-gray-400 block mb-1">Coût PM</label>
-                                    <input type="number" id="skill-3-cost" value="60" class="w-full bg-cyber-card border border-cyber-border rounded-lg px-3 py-2 text-sm text-white">
-                                </div>
-                                <div>
-                                    <label class="text-[10px] text-gray-400 block mb-1">Recharge (Tours)</label>
-                                    <input type="number" id="skill-3-cd" value="3" class="w-full bg-cyber-card border border-cyber-border rounded-lg px-3 py-2 text-sm text-white">
-                                </div>
-                            </div>
-                        </div>
+                    <div id="skill-catalog" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+                        <!-- Populated by JS -->
                     </div>
 
                     <div class="flex justify-between pt-4">
                         <button onclick="goToStep(2)" class="px-6 py-3 rounded-xl bg-cyber-dark border border-cyber-border text-white hover:border-gray-400 transition">
-                            <i class="fa-solid fa-arrow-left mr-2">Retour</i>
+                            <i class="fa-solid fa-arrow-left mr-2"></i>Retour
                         </button>
                         <button onclick="saveAndEnterArena()" class="px-8 py-3 rounded-xl bg-gradient-to-r from-cyber-neon to-cyber-purple text-black font-extrabold shadow-neon hover:opacity-90 transition transform hover:-translate-y-0.5">
                             <i class="fa-solid fa-fire mr-2"></i>Valider & Entrer dans l'Arène
@@ -386,7 +352,7 @@
                         </div>
 
                         <!-- Mana Bar -->
-                        <div class="space-y-1">
+                        <div class="space-y-1 mb-3">
                             <div class="flex justify-between text-xs font-bold">
                                 <span class="text-cyber-purple">MANA (PM)</span>
                                 <span id="player-mana-text" class="text-cyber-purple">125 / 125</span>
@@ -395,6 +361,9 @@
                                 <div id="player-mana-bar" class="h-full bg-gradient-to-r from-purple-800 to-cyber-purple transition-all duration-300" style="width: 100%"></div>
                             </div>
                         </div>
+
+                        <!-- Active Buffs -->
+                        <div id="player-buffs" class="flex flex-wrap gap-1 text-[10px]"></div>
                     </div>
 
                     <!-- AI Enemy Fighter Card -->
@@ -422,7 +391,7 @@
                         </div>
 
                         <!-- Mana Bar -->
-                        <div class="space-y-1">
+                        <div class="space-y-1 mb-3">
                             <div class="flex justify-between text-xs font-bold">
                                 <span class="text-cyber-purple">MANA (PM)</span>
                                 <span id="enemy-mana-text" class="text-cyber-purple">100 / 100</span>
@@ -431,6 +400,9 @@
                                 <div id="enemy-mana-bar" class="h-full bg-gradient-to-r from-purple-800 to-cyber-purple transition-all duration-300" style="width: 100%"></div>
                             </div>
                         </div>
+
+                        <!-- Active Buffs -->
+                        <div id="enemy-buffs" class="flex flex-wrap gap-1 text-[10px]"></div>
                     </div>
 
                 </div>
@@ -438,7 +410,7 @@
                 <!-- Combat Action Deck & Controls -->
                 <div id="combat-controls" class="bg-cyber-dark border border-cyber-border rounded-xl p-5 mb-6">
                     <h4 class="text-xs font-bold text-gray-400 uppercase tracking-widest mb-4">Panneau de Commandes Tactiques</h4>
-                    <div id="skills-button-container" class="grid grid-cols-1 sm:grid-cols-4 gap-3">
+                    <div id="skills-button-container" class="grid grid-cols-1 sm:grid-cols-3 md:grid-cols-5 gap-3">
                         <!-- Generated via JS -->
                     </div>
                 </div>
@@ -491,216 +463,147 @@
 
     <!-- JAVASCRIPT ENGINE -->
     <script>
-        // --- DATA & STATE ---
-        const iconsList = [
-            'fa-user-ninja', 'fa-robot', 'fa-dragon', 'fa-ghost', 'fa-mask', 'fa-skull', 'fa-bolt', 'fa-fire-flame-curved', 'fa-shield-cat', 'fa-biohazard'
+        // ==========================================
+        // SKILL CATALOG - 20 compétences distinctes
+        // ==========================================
+        const SKILL_CATALOG = [
+            { id: 0,  name: "Frappe Éclair",       cost: 10, cdMax: 0, icon: "fa-bolt",           type: "damage",  desc: "Coup rapide et précis",                     minDmg: 15, maxDmg: 20, color: "text-yellow-400" },
+            { id: 1,  name: "Bouclier de Mana",    cost: 15, cdMax: 2, icon: "fa-shield-halved",  type: "buff",    desc: "Réduit les dégâts du prochain coup de 50%",  buffType: "shield", buffDuration: 1, color: "text-blue-400" },
+            { id: 2,  name: "Drain Vital",         cost: 20, cdMax: 1, icon: "fa-heart-pulse",    type: "drain",   desc: "Vole de la vie à l'ennemi",                  minDmg: 12, maxDmg: 12, healAmount: 12, color: "text-emerald-400" },
+            { id: 3,  name: "Nova Incendiaire",    cost: 25, cdMax: 1, icon: "fa-fire",           type: "damage",  desc: "Explosion de feu dévastatrice",              minDmg: 25, maxDmg: 30, color: "text-orange-500" },
+            { id: 4,  name: "Onde de Choc",        cost: 15, cdMax: 1, icon: "fa-burst",          type: "damage",  desc: "Frappe sismique puissante",                  minDmg: 18, maxDmg: 22, color: "text-amber-400" },
+            { id: 5,  name: "Régénération",        cost: 30, cdMax: 3, icon: "fa-spa",            type: "heal",    desc: "Soigne le lanceur de 40 PV",                 healAmount: 40, color: "text-green-400" },
+            { id: 6,  name: "Lame Fantôme",        cost: 20, cdMax: 0, icon: "fa-ghost",          type: "pierce",  desc: "Attaque spectrale qui ignore la défense",    minDmg: 20, maxDmg: 20, color: "text-indigo-400" },
+            { id: 7,  name: "Foudre Céleste",      cost: 35, cdMax: 2, icon: "fa-cloud-bolt",     type: "damage",  desc: "Éclair dévastateur du ciel",                 minDmg: 35, maxDmg: 40, color: "text-cyan-300" },
+            { id: 8,  name: "Poison Mortel",        cost: 15, cdMax: 2, icon: "fa-skull-crossbones", type: "poison", desc: "Empoisonne : 8 dmg/tour pendant 3 tours",  poisonDmg: 8, poisonDuration: 3, color: "text-lime-400" },
+            { id: 9,  name: "Mur de Fer",          cost: 20, cdMax: 3, icon: "fa-chess-rook",     type: "buff",    desc: "Défense +50% pendant 2 tours",               buffType: "ironwall", buffDuration: 2, color: "text-slate-300" },
+            { id: 10, name: "Canon Plasma",        cost: 40, cdMax: 2, icon: "fa-crosshairs",     type: "damage",  desc: "Rayon d'énergie concentré",                  minDmg: 40, maxDmg: 45, color: "text-pink-400" },
+            { id: 11, name: "Téléportation",       cost: 10, cdMax: 1, icon: "fa-person-running",  type: "buff",    desc: "Esquive la prochaine attaque ennemie",       buffType: "dodge", buffDuration: 1, color: "text-sky-400" },
+            { id: 12, name: "Explosion Psychique",  cost: 30, cdMax: 1, icon: "fa-brain",          type: "damage",  desc: "Attaque mentale dévastatrice",               minDmg: 30, maxDmg: 35, color: "text-fuchsia-400" },
+            { id: 13, name: "Vampirisme",          cost: 25, cdMax: 2, icon: "fa-droplet",        type: "drain",   desc: "Absorbe la vie de l'ennemi",                 minDmg: 20, maxDmg: 20, healAmount: 20, color: "text-red-400" },
+            { id: 14, name: "Météore Suprême",     cost: 55, cdMax: 4, icon: "fa-meteor",         type: "damage",  desc: "Fait tomber un météore gigantesque",          minDmg: 55, maxDmg: 65, color: "text-orange-600" },
+            { id: 15, name: "Cri de Guerre",       cost: 15, cdMax: 3, icon: "fa-bullhorn",       type: "buff",    desc: "Force +30% pendant 2 tours",                 buffType: "warcry", buffDuration: 2, color: "text-red-500" },
+            { id: 16, name: "Gel Absolu",          cost: 25, cdMax: 2, icon: "fa-snowflake",      type: "freeze",  desc: "Gèle l'ennemi, skip son prochain tour",      color: "text-blue-300" },
+            { id: 17, name: "Rafale de Lames",     cost: 35, cdMax: 1, icon: "fa-scissors",       type: "damage",  desc: "Combo de coups multiples tranchants",        minDmg: 32, maxDmg: 38, color: "text-gray-300" },
+            { id: 18, name: "Sacrifice Vital",     cost: 45, cdMax: 3, icon: "fa-hand-holding-heart", type: "sacrifice", desc: "Sacrifie 20 PV pour infliger 60 dégâts", hpCost: 20, minDmg: 60, maxDmg: 60, color: "text-rose-500" },
+            { id: 19, name: "Annihilation",        cost: 70, cdMax: 5, icon: "fa-explosion",      type: "damage",  desc: "L'attaque ultime absolue",                   minDmg: 80, maxDmg: 90, color: "text-cyber-pink" }
         ];
 
+        let selectedSkillIds = [];
+
+        // ==========================================
+        // LEGENDS DATA
+        // ==========================================
         const iconicLegends = [
             {
-                name: "Goku Cyber-Saiyan",
-                universe: "Dragon Ball x Matrix",
-                archetype: "balanced",
-                strength: 40, speed: 35, defense: 15, intel: 10,
-                skills: [
-                    { name: "Poing Météore", cost: 15, cd: 0 },
-                    { name: "Kamehameha Quantique", cost: 40, cd: 1 },
-                    { name: "Ultra Instinct Numérique", cost: 65, cd: 3 }
-                ]
+                name: "Goku Cyber-Saiyan", universe: "Dragon Ball x Matrix", archetype: "balanced",
+                strength: 40, speed: 30, defense: 15, intel: 15,
+                skillIds: [0, 3, 14]
             },
             {
-                name: "Batman Arkham Nexus",
-                universe: "DC Comics",
-                archetype: "mystic-intel",
+                name: "Batman Arkham Nexus", universe: "DC Comics", archetype: "mystic-intel",
                 strength: 20, speed: 30, defense: 25, intel: 25,
-                skills: [
-                    { name: "Batarang Électrique", cost: 10, cd: 0 },
-                    { name: "Pression Tactique", cost: 30, cd: 1 },
-                    { name: "Protocole Knightfall", cost: 50, cd: 2 }
-                ]
+                skillIds: [11, 9, 12]
             },
             {
-                name: "Saitama One-Punch OS",
-                universe: "One Punch Man",
-                archetype: "cyber-brute",
-                strength: 65, speed: 20, defense: 10, intel: 5,
-                skills: [
-                    { name: "Série Normale de Coups", cost: 10, cd: 0 },
-                    { name: "Série Sérieuse : Poing Solaire", cost: 45, cd: 2 },
-                    { name: "One Punch Absolu", cost: 70, cd: 4 }
-                ]
+                name: "Saitama One-Punch OS", universe: "One Punch Man", archetype: "cyber-brute",
+                strength: 40, speed: 30, defense: 15, intel: 15,
+                skillIds: [4, 17, 19]
             },
             {
-                name: "Dark Vador Protocol",
-                universe: "Star Wars Cyber",
-                archetype: "cyber-brute",
-                strength: 45, speed: 15, defense: 30, intel: 10,
-                skills: [
-                    { name: "Jet de Sabre Laser", cost: 15, cd: 0 },
-                    { name: "Étranglement Quantique", cost: 35, cd: 1 },
-                    { name: "Courroux du Côté Obscur", cost: 60, cd: 3 }
-                ]
+                name: "Dark Vador Protocol", universe: "Star Wars Cyber", archetype: "cyber-brute",
+                strength: 40, speed: 15, defense: 30, intel: 15,
+                skillIds: [6, 16, 18]
             },
             {
-                name: "Luigino le Plombier Vert",
-                universe: "Royaume Champignon Cyber",
-                archetype: "balanced",
+                name: "Luigino le Plombier Vert", universe: "Royaume Champignon Cyber", archetype: "balanced",
                 strength: 20, speed: 25, defense: 30, intel: 25,
-                skills: [
-                    { name: "Boule de Feu Émeraude", cost: 12, cd: 0 },
-                    { name: "Aspirateur Spectral", cost: 30, cd: 1 },
-                    { name: "Étoile Invincible Verte", cost: 55, cd: 3 }
-                ]
+                skillIds: [0, 1, 5]
             },
             {
-                name: "Vejita Prince Orbital",
-                universe: "Saga des Guerriers Stellaires",
-                archetype: "cyber-brute",
-                strength: 45, speed: 30, defense: 15, intel: 10,
-                skills: [
-                    { name: "Rafale de Ki Royal", cost: 15, cd: 0 },
-                    { name: "Canon Galick Cosmique", cost: 40, cd: 1 },
-                    { name: "Explosion Finale Solaire", cost: 70, cd: 4 }
-                ]
+                name: "Vejita Prince Orbital", universe: "Saga des Guerriers Stellaires", archetype: "cyber-brute",
+                strength: 40, speed: 30, defense: 15, intel: 15,
+                skillIds: [3, 10, 19]
             },
             {
-                name: "Yamura Loup du Désert",
-                universe: "Saga des Guerriers Stellaires",
-                archetype: "bio-speed",
+                name: "Yamura Loup du Désert", universe: "Saga des Guerriers Stellaires", archetype: "bio-speed",
                 strength: 20, speed: 35, defense: 15, intel: 30,
-                skills: [
-                    { name: "Croc du Loup Solitaire", cost: 10, cd: 0 },
-                    { name: "Frappe Cyclone du Désert", cost: 28, cd: 1 },
-                    { name: "Sphère d'Énergie Suprême", cost: 50, cd: 2 }
-                ]
+                skillIds: [0, 4, 13]
             },
             {
-                name: "Kuririn Moine Astral",
-                universe: "Saga des Guerriers Stellaires",
-                archetype: "balanced",
+                name: "Kuririn Moine Astral", universe: "Saga des Guerriers Stellaires", archetype: "balanced",
                 strength: 20, speed: 30, defense: 25, intel: 25,
-                skills: [
-                    { name: "Disque Tranchant Solaire", cost: 18, cd: 0 },
-                    { name: "Vague d'Énergie Sacrée", cost: 35, cd: 1 },
-                    { name: "Flash Aveuglant Cosmique", cost: 55, cd: 3 }
-                ]
+                skillIds: [6, 5, 7]
             },
             {
-                name: "Celluloid Bio-Parfait",
-                universe: "Saga des Guerriers Stellaires",
-                archetype: "cyber-brute",
-                strength: 50, speed: 20, defense: 20, intel: 10,
-                skills: [
-                    { name: "Absorption Cellulaire", cost: 15, cd: 0 },
-                    { name: "Kamehameha Copié", cost: 40, cd: 1 },
-                    { name: "Nova Solaire Parfaite", cost: 65, cd: 3 }
-                ]
+                name: "Celluloid Bio-Parfait", universe: "Saga des Guerriers Stellaires", archetype: "cyber-brute",
+                strength: 40, speed: 20, defense: 25, intel: 15,
+                skillIds: [2, 8, 14]
             },
             {
-                name: "Genoz Cyborg Incendiaire",
-                universe: "Héros pour le Fun",
-                archetype: "cyber-brute",
-                strength: 40, speed: 30, defense: 10, intel: 20,
-                skills: [
-                    { name: "Poing à Réaction", cost: 12, cd: 0 },
-                    { name: "Incinération Mécanique", cost: 35, cd: 1 },
-                    { name: "Canon Spirale Infernal", cost: 60, cd: 3 }
-                ]
+                name: "Genoz Cyborg Incendiaire", universe: "Héros pour le Fun", archetype: "cyber-brute",
+                strength: 35, speed: 30, defense: 15, intel: 20,
+                skillIds: [3, 10, 18]
             },
             {
-                name: "Tatsumi Tornade Psychique",
-                universe: "Héros pour le Fun",
-                archetype: "mystic-intel",
-                strength: 10, speed: 20, defense: 15, intel: 55,
-                skills: [
-                    { name: "Projection Télékinésique", cost: 15, cd: 0 },
-                    { name: "Tempête Psychique", cost: 40, cd: 1 },
-                    { name: "Cataclysme Gravitationnel", cost: 70, cd: 4 }
-                ]
+                name: "Tatsumi Tornade Psychique", universe: "Héros pour le Fun", archetype: "mystic-intel",
+                strength: 10, speed: 20, defense: 15, intel: 40,
+                skillIds: [12, 16, 19]
             },
             {
-                name: "Remia l'Oni Azurée",
-                universe: "Chroniques du Manoir Parallèle",
-                archetype: "balanced",
+                name: "Remia l'Oni Azurée", universe: "Chroniques du Manoir Parallèle", archetype: "balanced",
                 strength: 25, speed: 25, defense: 20, intel: 30,
-                skills: [
-                    { name: "Chaînes Givrées", cost: 12, cd: 0 },
-                    { name: "Fléau de l'Oni de Glace", cost: 35, cd: 1 },
-                    { name: "Sacrifice Glacial Absolu", cost: 60, cd: 3 }
-                ]
+                skillIds: [16, 2, 7]
             },
             {
-                name: "Ramia l'Oni Rosée",
-                universe: "Chroniques du Manoir Parallèle",
-                archetype: "mystic-intel",
-                strength: 15, speed: 20, defense: 20, intel: 45,
-                skills: [
-                    { name: "Bourrasque Tranchante", cost: 10, cd: 0 },
-                    { name: "Vision Clairvoyante", cost: 30, cd: 1 },
-                    { name: "Tempête de Pétales Carnassiers", cost: 55, cd: 3 }
-                ]
+                name: "Ramia l'Oni Rosée", universe: "Chroniques du Manoir Parallèle", archetype: "mystic-intel",
+                strength: 15, speed: 20, defense: 25, intel: 40,
+                skillIds: [8, 1, 12]
             },
             {
-                name: "Elza Reine des Armures",
-                universe: "Guilde des Fées Stellaires",
-                archetype: "cyber-brute",
-                strength: 35, speed: 25, defense: 30, intel: 10,
-                skills: [
-                    { name: "Lame du Chevalier Céleste", cost: 12, cd: 0 },
-                    { name: "Requip : Armure Foudroyante", cost: 35, cd: 1 },
-                    { name: "Danse des Épées Ultimes", cost: 60, cd: 3 }
-                ]
+                name: "Elza Reine des Armures", universe: "Guilde des Fées Stellaires", archetype: "cyber-brute",
+                strength: 30, speed: 25, defense: 35, intel: 10,
+                skillIds: [17, 9, 15]
             },
             {
-                name: "Rafi Chapeau de Paille",
-                universe: "Épopée des Océans Infinis",
-                archetype: "cyber-brute",
-                strength: 45, speed: 30, defense: 20, intel: 5,
-                skills: [
-                    { name: "Poing Élastique", cost: 10, cd: 0 },
-                    { name: "Gatling Dévastateur", cost: 35, cd: 1 },
-                    { name: "Impact Royal Suprême", cost: 65, cd: 4 }
-                ]
+                name: "Rafi Chapeau de Paille", universe: "Épopée des Océans Infinis", archetype: "cyber-brute",
+                strength: 40, speed: 30, defense: 20, intel: 10,
+                skillIds: [4, 15, 14]
             },
             {
-                name: "Kirato Épéiste Noir",
-                universe: "Monde Virtuel Online",
-                archetype: "bio-speed",
+                name: "Kirato Épéiste Noir", universe: "Monde Virtuel Online", archetype: "bio-speed",
                 strength: 30, speed: 35, defense: 15, intel: 20,
-                skills: [
-                    { name: "Double Lame Stellaire", cost: 12, cd: 0 },
-                    { name: "Starburst Stream", cost: 38, cd: 1 },
-                    { name: "Épée Obscure de la Nuit", cost: 60, cd: 3 }
-                ]
+                skillIds: [6, 17, 18]
             }
         ];
 
+        // ==========================================
+        // CHARACTER & BATTLE STATE
+        // ==========================================
         let currentCharacter = {
-            name: "",
-            universe: "",
-            archetype: "cyber-brute",
-            strength: 25,
-            speed: 25,
-            defense: 25,
-            intel: 25,
-            maxHp: 100,
-            maxMana: 125,
-            skills: []
+            name: "", universe: "", archetype: "cyber-brute",
+            strength: 10, speed: 10, defense: 10, intel: 10,
+            maxHp: 100, maxMana: 80, skills: []
         };
 
         let battleState = {
-            playerHp: 100,
-            playerMana: 125,
-            enemyHp: 100,
-            enemyMana: 100,
+            playerHp: 100, playerMana: 80,
+            enemyHp: 100, enemyMana: 100,
             round: 1,
             playerCd: [0, 0, 0],
             enemyCd: [0, 0, 0],
             enemyData: null,
-            isPlayerTurn: true
+            isPlayerTurn: true,
+            playerBuffs: {},   // { shield: turns, dodge: turns, ironwall: turns, warcry: turns }
+            enemyBuffs: {},
+            playerPoison: 0,   // turns remaining
+            enemyPoison: 0,
+            frozen: false      // is enemy frozen this turn?
         };
 
-        // --- NAVIGATION & VIEWS ---
+        // ==========================================
+        // NAVIGATION & VIEWS
+        // ==========================================
         function switchView(viewName) {
             ['home', 'studio', 'arena', 'pantheon'].forEach(v => {
                 document.getElementById(`view-${v}`).classList.add('hidden');
@@ -710,23 +613,58 @@
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
-        // --- STUDIO STEPPER & STATS ---
+        // ==========================================
+        // STUDIO STEPPER & STATS
+        // ==========================================
         function goToStep(step) {
             [1, 2, 3].forEach(s => {
                 document.getElementById(`step-${s}`).classList.add('hidden');
             });
             document.getElementById(`step-${step}`).classList.remove('hidden');
             document.getElementById('current-step-num').innerText = step;
-            if (step === 3) updateSkillDefaults();
+            if (step === 3) renderSkillCatalog();
         }
 
         function updateStats() {
-            let str = parseInt(document.getElementById('stat-strength').value);
-            let spd = parseInt(document.getElementById('stat-speed').value);
-            let def = parseInt(document.getElementById('stat-defense').value);
-            let intel = parseInt(document.getElementById('stat-intel').value);
+            const sliders = {
+                strength: document.getElementById('stat-strength'),
+                speed: document.getElementById('stat-speed'),
+                defense: document.getElementById('stat-defense'),
+                intel: document.getElementById('stat-intel')
+            };
+
+            let str = parseInt(sliders.strength.value);
+            let spd = parseInt(sliders.speed.value);
+            let def = parseInt(sliders.defense.value);
+            let intel = parseInt(sliders.intel.value);
 
             let total = str + spd + def + intel;
+
+            // If total exceeds 100, clamp the last-changed slider
+            if (total > 100) {
+                let overflow = total - 100;
+                // Find which slider triggered by checking which one is focused
+                let activeId = document.activeElement ? document.activeElement.id : '';
+                if (activeId === 'stat-strength') {
+                    str = Math.max(5, str - overflow);
+                    sliders.strength.value = str;
+                } else if (activeId === 'stat-speed') {
+                    spd = Math.max(5, spd - overflow);
+                    sliders.speed.value = spd;
+                } else if (activeId === 'stat-defense') {
+                    def = Math.max(5, def - overflow);
+                    sliders.defense.value = def;
+                } else if (activeId === 'stat-intel') {
+                    intel = Math.max(5, intel - overflow);
+                    sliders.intel.value = intel;
+                } else {
+                    // Fallback: clamp strength
+                    str = Math.max(5, str - overflow);
+                    sliders.strength.value = str;
+                }
+                total = str + spd + def + intel;
+            }
+
             let left = 100 - total;
 
             document.getElementById('val-strength').innerText = str;
@@ -734,6 +672,10 @@
             document.getElementById('val-defense').innerText = def;
             document.getElementById('val-intel').innerText = intel;
             document.getElementById('points-left').innerText = left;
+
+            // Color points-left
+            const pointsEl = document.getElementById('points-left');
+            pointsEl.className = left > 0 ? 'font-bold text-cyber-neon' : 'font-bold text-cyber-pink';
 
             // Intelligence scales max Mana
             let calculatedMana = 50 + (intel * 3);
@@ -761,28 +703,69 @@
 
         document.getElementById('char-archetype').addEventListener('change', updateAvatarPreview);
 
-        function updateSkillDefaults() {
-            const arch = document.getElementById('char-archetype').value;
-            if (arch === 'cyber-brute') {
-                document.getElementById('skill-1-name').value = "Poing d'Acier";
-                document.getElementById('skill-2-name').value = "Choc Sismique";
-                document.getElementById('skill-3-name').value = "Impact Titan";
-            } else if (arch === 'bio-speed') {
-                document.getElementById('skill-1-name').value = "Frappe Éclair";
-                document.getElementById('skill-2-name').value = "Tornade Foudroyante";
-                document.getElementById('skill-3-name').value = "Vitesse Lumière";
-            } else if (arch === 'mystic-intel') {
-                document.getElementById('skill-1-name').value = "Orbe Mental";
-                document.getElementById('skill-2-name').value = "Vortex Arcanique";
-                document.getElementById('skill-3-name').value = "Singularité Cosmique";
-            }
+        // ==========================================
+        // SKILL CATALOG UI
+        // ==========================================
+        function renderSkillCatalog() {
+            const container = document.getElementById('skill-catalog');
+            container.innerHTML = '';
+
+            SKILL_CATALOG.forEach((skill, idx) => {
+                const isSelected = selectedSkillIds.includes(skill.id);
+                const selectedClass = isSelected ? 'selected' : '';
+
+                let details = '';
+                if (skill.type === 'damage') details = `${skill.minDmg}-${skill.maxDmg} dégâts`;
+                else if (skill.type === 'pierce') details = `${skill.minDmg} dégâts (ignore DEF)`;
+                else if (skill.type === 'drain') details = `${skill.minDmg} dmg + ${skill.healAmount} PV`;
+                else if (skill.type === 'heal') details = `+${skill.healAmount} PV`;
+                else if (skill.type === 'buff') details = skill.desc;
+                else if (skill.type === 'poison') details = `${skill.poisonDmg} dmg/tour × ${skill.poisonDuration} tours`;
+                else if (skill.type === 'freeze') details = 'Gèle l\'ennemi 1 tour';
+                else if (skill.type === 'sacrifice') details = `-${skill.hpCost} PV → ${skill.minDmg} dégâts`;
+
+                container.innerHTML += `
+                    <div class="skill-card ${selectedClass} bg-cyber-dark/60 p-3 rounded-xl border border-cyber-border" onclick="toggleSkill(${skill.id})" id="skill-card-${skill.id}">
+                        <div class="flex items-center gap-2 mb-2">
+                            <i class="fa-solid ${skill.icon} ${skill.color}"></i>
+                            <span class="font-bold text-sm text-white">${skill.name}</span>
+                            ${isSelected ? '<i class="fa-solid fa-check-circle text-cyber-neon ml-auto"></i>' : ''}
+                        </div>
+                        <p class="text-[10px] text-gray-400 mb-2">${skill.desc}</p>
+                        <div class="flex justify-between text-[10px]">
+                            <span class="text-cyber-purple"><i class="fa-solid fa-bolt mr-1"></i>${skill.cost} PM</span>
+                            <span class="text-gray-400"><i class="fa-solid fa-clock mr-1"></i>CD: ${skill.cdMax}</span>
+                            <span class="${skill.color}">${details}</span>
+                        </div>
+                    </div>
+                `;
+            });
+
+            document.getElementById('skills-selected-count').innerText = selectedSkillIds.length;
         }
 
-        // --- LEGENDS MODAL ---
+        function toggleSkill(skillId) {
+            const idx = selectedSkillIds.indexOf(skillId);
+            if (idx !== -1) {
+                selectedSkillIds.splice(idx, 1);
+            } else {
+                if (selectedSkillIds.length >= 3) {
+                    // Remove first selected, add new
+                    selectedSkillIds.shift();
+                }
+                selectedSkillIds.push(skillId);
+            }
+            renderSkillCatalog();
+        }
+
+        // ==========================================
+        // LEGENDS MODAL
+        // ==========================================
         function openLegendModal() {
             const listEl = document.getElementById('legends-list');
             listEl.innerHTML = '';
             iconicLegends.forEach((leg, idx) => {
+                const skillNames = leg.skillIds.map(id => SKILL_CATALOG[id].name).join(', ');
                 listEl.innerHTML += `
                     <div class="bg-cyber-dark border border-cyber-border rounded-xl p-4 flex flex-col sm:flex-row justify-between items-center gap-4 hover:border-cyber-purple transition">
                         <div>
@@ -791,6 +774,7 @@
                             <div class="flex gap-3 mt-2 text-xs font-mono text-cyber-neon">
                                 <span>FOR: ${leg.strength}</span><span>VIT: ${leg.speed}</span><span>DEF: ${leg.defense}</span><span>INT: ${leg.intel}</span>
                             </div>
+                            <p class="text-[10px] text-gray-500 mt-1">Skills: ${skillNames}</p>
                         </div>
                         <button onclick="loadLegend(${idx})" class="px-4 py-2 rounded-lg bg-cyber-purple text-white text-xs font-bold hover:opacity-90 shadow-neon-purple whitespace-nowrap">
                             Charger ce modèle
@@ -818,23 +802,15 @@
 
             updateStats();
 
-            document.getElementById('skill-1-name').value = leg.skills[0].name;
-            document.getElementById('skill-1-cost').value = leg.skills[0].cost;
-            document.getElementById('skill-1-cd').value = leg.skills[0].cd;
-
-            document.getElementById('skill-2-name').value = leg.skills[1].name;
-            document.getElementById('skill-2-cost').value = leg.skills[1].cost;
-            document.getElementById('skill-2-cd').value = leg.skills[1].cd;
-
-            document.getElementById('skill-3-name').value = leg.skills[2].name;
-            document.getElementById('skill-3-cost').value = leg.skills[2].cost;
-            document.getElementById('skill-3-cd').value = leg.skills[2].cd;
+            selectedSkillIds = [...leg.skillIds];
 
             closeLegendModal();
             goToStep(1);
         }
 
-        // --- SAVE & LAUNCH ARENA ---
+        // ==========================================
+        // SAVE & LAUNCH ARENA
+        // ==========================================
         function saveAndEnterArena() {
             const name = document.getElementById('char-name').value.trim();
             if (!name) {
@@ -843,27 +819,17 @@
                 return;
             }
 
+            if (selectedSkillIds.length !== 3) {
+                alert("Veuillez sélectionner exactement 3 compétences !");
+                return;
+            }
+
             currentCharacter.name = name;
             currentCharacter.universe = document.getElementById('char-universe').value.trim() || "Univers Inconnu";
             currentCharacter.archetype = document.getElementById('char-archetype').value;
             currentCharacter.maxHp = 100 + (currentCharacter.defense * 2);
-            currentCharacter.skills = [
-                {
-                    name: document.getElementById('skill-1-name').value,
-                    cost: parseInt(document.getElementById('skill-1-cost').value) || 10,
-                    cdMax: parseInt(document.getElementById('skill-1-cd').value) || 0
-                },
-                {
-                    name: document.getElementById('skill-2-name').value,
-                    cost: parseInt(document.getElementById('skill-2-cost').value) || 25,
-                    cdMax: parseInt(document.getElementById('skill-2-cd').value) || 1
-                },
-                {
-                    name: document.getElementById('skill-3-name').value,
-                    cost: parseInt(document.getElementById('skill-3-cost').value) || 50,
-                    cdMax: parseInt(document.getElementById('skill-3-cd').value) || 3
-                }
-            ];
+            currentCharacter.skills = selectedSkillIds.map(id => ({...SKILL_CATALOG[id]}));
+            currentCharacter.skillIds = [...selectedSkillIds];
 
             // Save to LocalStorage Pantheon
             saveToPantheon(currentCharacter);
@@ -875,7 +841,7 @@
 
         function saveToPantheon(char) {
             let pantheon = JSON.parse(localStorage.getItem('hybrid_pantheon') || '[]');
-            pantheon.unshift(char);
+            pantheon.unshift({...char});
             localStorage.setItem('hybrid_pantheon', JSON.stringify(pantheon));
             updatePantheonCount();
         }
@@ -887,26 +853,35 @@
 
         updatePantheonCount();
 
-        // --- COMBAT ENGINE ---
+        // ==========================================
+        // COMBAT ENGINE
+        // ==========================================
         function setupBattle() {
             battleState.playerHp = currentCharacter.maxHp;
             battleState.playerMana = currentCharacter.maxMana;
             battleState.round = 1;
             battleState.playerCd = [0, 0, 0];
             battleState.enemyCd = [0, 0, 0];
+            battleState.playerBuffs = {};
+            battleState.enemyBuffs = {};
+            battleState.playerPoison = 0;
+            battleState.enemyPoison = 0;
+            battleState.frozen = false;
 
             // Pick random enemy from legends
             const randomLegend = iconicLegends[Math.floor(Math.random() * iconicLegends.length)];
+            const enemyMaxMana = 50 + (randomLegend.intel * 3);
             battleState.enemyData = {
                 name: randomLegend.name + " (Boss)",
                 universe: randomLegend.universe,
                 hp: 120,
                 maxHp: 120,
-                mana: 120,
-                maxMana: 120,
+                mana: enemyMaxMana,
+                maxMana: enemyMaxMana,
                 strength: randomLegend.strength + 5,
                 speed: randomLegend.speed,
-                skills: randomLegend.skills
+                defense: randomLegend.defense,
+                skills: randomLegend.skillIds.map(id => ({...SKILL_CATALOG[id]}))
             };
 
             battleState.enemyHp = battleState.enemyData.hp;
@@ -947,13 +922,45 @@
 
             document.getElementById('battle-round').innerText = battleState.round;
 
+            // Render buffs
+            renderBuffDisplay('player-buffs', battleState.playerBuffs, battleState.playerPoison);
+            renderBuffDisplay('enemy-buffs', battleState.enemyBuffs, battleState.enemyPoison);
+
             renderCombatControls();
+        }
+
+        function renderBuffDisplay(elementId, buffs, poison) {
+            const el = document.getElementById(elementId);
+            let html = '';
+            if (buffs.shield) html += `<span class="bg-blue-500/20 border border-blue-500/40 text-blue-400 px-2 py-0.5 rounded">🛡 Bouclier (${buffs.shield}t)</span>`;
+            if (buffs.ironwall) html += `<span class="bg-slate-500/20 border border-slate-500/40 text-slate-300 px-2 py-0.5 rounded">🏰 Mur de Fer (${buffs.ironwall}t)</span>`;
+            if (buffs.warcry) html += `<span class="bg-red-500/20 border border-red-500/40 text-red-400 px-2 py-0.5 rounded">⚔️ Cri de Guerre (${buffs.warcry}t)</span>`;
+            if (buffs.dodge) html += `<span class="bg-sky-500/20 border border-sky-500/40 text-sky-400 px-2 py-0.5 rounded">💨 Esquive (${buffs.dodge}t)</span>`;
+            if (poison > 0) html += `<span class="bg-lime-500/20 border border-lime-500/40 text-lime-400 px-2 py-0.5 rounded">☠️ Poison (${poison}t)</span>`;
+            el.innerHTML = html;
         }
 
         function renderCombatControls() {
             const container = document.getElementById('skills-button-container');
             container.innerHTML = '';
 
+            // === BASIC ATTACK (always first, free) ===
+            let basicDisabled = !battleState.isPlayerTurn;
+            let basicBtnClass = basicDisabled ? 'bg-gray-800 border-gray-700 text-gray-500 cursor-not-allowed' : 'bg-cyber-dark border-gray-500 text-white hover:border-white';
+            container.innerHTML += `
+                <button onclick="playerBasicAttack()" ${basicDisabled ? 'disabled' : ''} class="p-3 rounded-xl border ${basicBtnClass} flex flex-col justify-between transition text-left relative overflow-hidden">
+                    <div>
+                        <span class="text-[10px] font-bold text-gray-400 uppercase block">Attaque de Base</span>
+                        <span class="font-bold text-sm block">Coup de Poing</span>
+                    </div>
+                    <div class="flex justify-between items-center mt-3 text-xs">
+                        <span class="text-gray-400"><i class="fa-solid fa-fist-raised mr-1"></i>0 PM</span>
+                        <span class="text-emerald-400">Prêt</span>
+                    </div>
+                </button>
+            `;
+
+            // === SKILL BUTTONS ===
             currentCharacter.skills.forEach((skill, idx) => {
                 let cdLeft = battleState.playerCd[idx];
                 let hasMana = battleState.playerMana >= skill.cost;
@@ -964,7 +971,7 @@
                 container.innerHTML += `
                     <button onclick="playerAttack(${idx})" ${disabled ? 'disabled' : ''} class="p-3 rounded-xl border ${btnClass} flex flex-col justify-between transition text-left relative overflow-hidden">
                         <div>
-                            <span class="text-[10px] font-bold text-cyber-neon uppercase block">Attaque ${idx + 1}</span>
+                            <span class="text-[10px] font-bold text-cyber-neon uppercase block"><i class="fa-solid ${skill.icon} mr-1"></i>${skill.type}</span>
                             <span class="font-bold text-sm block truncate">${skill.name}</span>
                         </div>
                         <div class="flex justify-between items-center mt-3 text-xs">
@@ -975,7 +982,7 @@
                 `;
             });
 
-            // Recovery Action Button (Consumes a turn)
+            // Recovery Action Button
             container.innerHTML += `
                 <button onclick="playerRecover()" ${!battleState.isPlayerTurn ? 'disabled' : ''} class="p-3 rounded-xl border bg-cyber-purple/10 border-cyber-purple/40 text-cyber-purple hover:bg-cyber-purple/20 flex flex-col justify-between transition text-left">
                     <div>
@@ -996,6 +1003,73 @@
             logs.scrollTop = logs.scrollHeight;
         }
 
+        // ==========================================
+        // DAMAGE CALCULATION HELPERS
+        // ==========================================
+        function calcDamage(minDmg, maxDmg, attackerStr, defenderDef, ignoreDef = false) {
+            let base = minDmg + Math.random() * (maxDmg - minDmg);
+            // Strength bonus
+            let strBonus = attackerStr * 0.15;
+            // Warcry buff
+            if (battleState.isPlayerTurn && battleState.playerBuffs.warcry) strBonus *= 1.3;
+            if (!battleState.isPlayerTurn && battleState.enemyBuffs.warcry) strBonus *= 1.3;
+
+            let finalDmg = base + strBonus;
+
+            if (!ignoreDef) {
+                let defReduction = defenderDef * 0.3;
+                // Ironwall buff for defender
+                if (battleState.isPlayerTurn && battleState.enemyBuffs.ironwall) defReduction *= 1.5;
+                if (!battleState.isPlayerTurn && battleState.playerBuffs.ironwall) defReduction *= 1.5;
+                finalDmg -= defReduction;
+            }
+
+            // Shield buff for defender (halves damage)
+            if (battleState.isPlayerTurn && battleState.enemyBuffs.shield) {
+                finalDmg *= 0.5;
+                battleState.enemyBuffs.shield = 0;
+                logMessage(`<span class="text-blue-400">[BUFF] Le Bouclier de Mana de l'ennemi absorbe 50% des dégâts !</span>`);
+            }
+            if (!battleState.isPlayerTurn && battleState.playerBuffs.shield) {
+                finalDmg *= 0.5;
+                battleState.playerBuffs.shield = 0;
+                logMessage(`<span class="text-blue-400">[BUFF] Votre Bouclier de Mana absorbe 50% des dégâts !</span>`);
+            }
+
+            return Math.max(3, Math.round(finalDmg));
+        }
+
+        // ==========================================
+        // PLAYER ACTIONS
+        // ==========================================
+        function playerBasicAttack() {
+            if (!battleState.isPlayerTurn) return;
+
+            // Check dodge
+            if (battleState.enemyBuffs.dodge) {
+                battleState.enemyBuffs.dodge = 0;
+                logMessage(`<span class="text-sky-400">[TOUR ${battleState.round}] L'ennemi esquive votre Coup de Poing grâce à Téléportation !</span>`);
+                endPlayerTurn();
+                return;
+            }
+
+            let dmg = Math.min(30, Math.round(currentCharacter.strength * 0.4 + Math.random() * 5));
+            // Warcry bonus
+            if (battleState.playerBuffs.warcry) dmg = Math.min(30, Math.round(dmg * 1.3));
+            // Shield absorption
+            if (battleState.enemyBuffs.shield) {
+                dmg = Math.round(dmg * 0.5);
+                battleState.enemyBuffs.shield = 0;
+                logMessage(`<span class="text-blue-400">[BUFF] Le Bouclier de Mana ennemi absorbe 50% !</span>`);
+            }
+            dmg = Math.max(1, dmg);
+
+            battleState.enemyHp -= dmg;
+            logMessage(`<span class="text-gray-300">[TOUR ${battleState.round}] ${currentCharacter.name} lance un Coup de Poing ! ${dmg} dégâts infligés.</span>`);
+
+            checkBattleEnd();
+        }
+
         function playerAttack(skillIdx) {
             if (!battleState.isPlayerTurn) return;
 
@@ -1006,14 +1080,98 @@
             battleState.playerMana -= skill.cost;
             battleState.playerCd[skillIdx] = skill.cdMax + 1;
 
-            // Calculate Damage
-            let baseDmg = currentCharacter.strength * 0.8 + (skillIdx + 1) * 12;
-            let finalDmg = Math.max(5, Math.round(baseDmg - (battleState.enemyData.strength * 0.2)));
-            battleState.enemyHp -= finalDmg;
+            // Check dodge (for damage/pierce/drain/sacrifice skills)
+            if (['damage', 'pierce', 'drain', 'sacrifice'].includes(skill.type) && battleState.enemyBuffs.dodge) {
+                battleState.enemyBuffs.dodge = 0;
+                logMessage(`<span class="text-sky-400">[TOUR ${battleState.round}] L'ennemi esquive ${skill.name} grâce à Téléportation !</span>`);
+                endPlayerTurn();
+                return;
+            }
 
-            logMessage(`<span class="text-cyber-neon">[TOUR ${battleState.round}] ${currentCharacter.name} utilise ${skill.name} ! ${finalDmg} dégâts infligés.</span>`);
-
+            executeSkill(skill, true);
             checkBattleEnd();
+        }
+
+        function executeSkill(skill, isPlayer) {
+            const attackerName = isPlayer ? currentCharacter.name : battleState.enemyData.name;
+            const attackerStr = isPlayer ? currentCharacter.strength : battleState.enemyData.strength;
+            const defenderDef = isPlayer ? battleState.enemyData.defense : currentCharacter.defense;
+            const colorClass = isPlayer ? 'text-cyber-neon' : 'text-cyber-pink';
+
+            switch (skill.type) {
+                case 'damage': {
+                    let dmg = calcDamage(skill.minDmg, skill.maxDmg, attackerStr, defenderDef);
+                    if (isPlayer) battleState.enemyHp -= dmg;
+                    else battleState.playerHp -= dmg;
+                    logMessage(`<span class="${colorClass}">[TOUR ${battleState.round}] ${attackerName} utilise ${skill.name} ! ${dmg} dégâts.</span>`);
+                    break;
+                }
+                case 'pierce': {
+                    let dmg = calcDamage(skill.minDmg, skill.maxDmg, attackerStr, defenderDef, true);
+                    if (isPlayer) battleState.enemyHp -= dmg;
+                    else battleState.playerHp -= dmg;
+                    logMessage(`<span class="${colorClass}">[TOUR ${battleState.round}] ${attackerName} utilise ${skill.name} ! ${dmg} dégâts (ignore défense).</span>`);
+                    break;
+                }
+                case 'drain': {
+                    let dmg = calcDamage(skill.minDmg, skill.maxDmg, attackerStr, defenderDef);
+                    let heal = skill.healAmount;
+                    if (isPlayer) {
+                        battleState.enemyHp -= dmg;
+                        battleState.playerHp = Math.min(currentCharacter.maxHp, battleState.playerHp + heal);
+                    } else {
+                        battleState.playerHp -= dmg;
+                        battleState.enemyHp = Math.min(battleState.enemyData.maxHp, battleState.enemyHp + heal);
+                    }
+                    logMessage(`<span class="${colorClass}">[TOUR ${battleState.round}] ${attackerName} utilise ${skill.name} ! ${dmg} dégâts + ${heal} PV absorbés.</span>`);
+                    break;
+                }
+                case 'heal': {
+                    let heal = skill.healAmount;
+                    if (isPlayer) {
+                        battleState.playerHp = Math.min(currentCharacter.maxHp, battleState.playerHp + heal);
+                    } else {
+                        battleState.enemyHp = Math.min(battleState.enemyData.maxHp, battleState.enemyHp + heal);
+                    }
+                    logMessage(`<span class="${colorClass}">[TOUR ${battleState.round}] ${attackerName} utilise ${skill.name} ! +${heal} PV récupérés.</span>`);
+                    break;
+                }
+                case 'buff': {
+                    let buffs = isPlayer ? battleState.playerBuffs : battleState.enemyBuffs;
+                    buffs[skill.buffType] = skill.buffDuration + 1;
+                    logMessage(`<span class="${colorClass}">[TOUR ${battleState.round}] ${attackerName} utilise ${skill.name} ! Buff ${skill.buffType} activé (${skill.buffDuration} tours).</span>`);
+                    break;
+                }
+                case 'poison': {
+                    if (isPlayer) {
+                        battleState.enemyPoison = skill.poisonDuration;
+                    } else {
+                        battleState.playerPoison = skill.poisonDuration;
+                    }
+                    logMessage(`<span class="${colorClass}">[TOUR ${battleState.round}] ${attackerName} utilise ${skill.name} ! Ennemi empoisonné (${skill.poisonDmg} dmg/tour × ${skill.poisonDuration} tours).</span>`);
+                    break;
+                }
+                case 'freeze': {
+                    if (isPlayer) {
+                        battleState.frozen = true;
+                    }
+                    // Enemy can't freeze player in this implementation for simplicity
+                    logMessage(`<span class="${colorClass}">[TOUR ${battleState.round}] ${attackerName} utilise ${skill.name} ! L'ennemi est gelé et perd son prochain tour !</span>`);
+                    break;
+                }
+                case 'sacrifice': {
+                    let dmg = skill.minDmg;
+                    if (isPlayer) {
+                        battleState.playerHp -= skill.hpCost;
+                        battleState.enemyHp -= dmg;
+                    } else {
+                        battleState.enemyHp -= skill.hpCost;
+                        battleState.playerHp -= dmg;
+                    }
+                    logMessage(`<span class="${colorClass}">[TOUR ${battleState.round}] ${attackerName} utilise ${skill.name} ! Sacrifie ${skill.hpCost} PV pour infliger ${dmg} dégâts !</span>`);
+                    break;
+                }
+            }
         }
 
         function playerRecover() {
@@ -1029,9 +1187,39 @@
             endPlayerTurn();
         }
 
+        // ==========================================
+        // TURN MANAGEMENT
+        // ==========================================
+        function tickBuffs(buffs) {
+            for (let key in buffs) {
+                if (buffs[key] > 0) buffs[key]--;
+                if (buffs[key] <= 0) delete buffs[key];
+            }
+        }
+
+        function applyPoison(target, amount) {
+            if (amount > 0) {
+                let dmg = 8;
+                if (target === 'player') {
+                    battleState.playerHp -= dmg;
+                    battleState.playerPoison--;
+                    logMessage(`<span class="text-lime-400">[POISON] ${currentCharacter.name} subit ${dmg} dégâts de poison ! (${battleState.playerPoison} tours restants)</span>`);
+                } else {
+                    battleState.enemyHp -= dmg;
+                    battleState.enemyPoison--;
+                    logMessage(`<span class="text-lime-400">[POISON] ${battleState.enemyData.name} subit ${dmg} dégâts de poison ! (${battleState.enemyPoison} tours restants)</span>`);
+                }
+            }
+        }
+
         function endPlayerTurn() {
             // Tick down player cooldowns
             battleState.playerCd = battleState.playerCd.map(cd => Math.max(0, cd - 1));
+            // Tick player buffs
+            tickBuffs(battleState.playerBuffs);
+
+            // Apply poison to enemy
+            applyPoison('enemy', battleState.enemyPoison);
 
             if (battleState.enemyHp <= 0) {
                 battleEnd(true);
@@ -1048,30 +1236,75 @@
         function enemyTurn() {
             if (battleState.enemyHp <= 0) return;
 
-            // AI Skill selection based on available mana
-            let availableSkills = battleState.enemyData.skills.filter((s, idx) => battleState.enemyMana >= s.cost && battleState.enemyCd[idx] === 0);
-            
-            if (availableSkills.length === 0) {
-                // Enemy recovers mana
-                battleState.enemyMana = Math.min(battleState.enemyData.maxMana, battleState.enemyMana + 30);
-                logMessage(`<span class="text-cyber-pink">[TOUR ${battleState.round}] ${battleState.enemyData.name} médite pour recharger sa Mana.</span>`);
-            } else {
-                // Pick random available skill
-                let chosenSkillIdx = Math.floor(Math.random() * availableSkills.length);
-                let skill = availableSkills[chosenSkillIdx];
-                let originalIdx = battleState.enemyData.skills.indexOf(skill);
-
-                battleState.enemyMana -= skill.cost;
-                battleState.enemyCd[originalIdx] = skill.cd + 1;
-
-                let dmg = Math.max(8, Math.round(battleState.enemyData.strength * 0.7 - currentCharacter.defense * 0.3));
-                battleState.playerHp -= dmg;
-
-                logMessage(`<span class="text-cyber-pink">[TOUR ${battleState.round}] ${battleState.enemyData.name} utilise ${skill.name} ! Vous subissez ${dmg} dégâts.</span>`);
+            // Check if frozen
+            if (battleState.frozen) {
+                battleState.frozen = false;
+                logMessage(`<span class="text-blue-300">[TOUR ${battleState.round}] ${battleState.enemyData.name} est gelé et ne peut pas agir !</span>`);
+                finishEnemyTurn();
+                return;
             }
 
+            // AI: Try to pick best available skill, or basic attack
+            let availableSkills = battleState.enemyData.skills
+                .map((s, idx) => ({skill: s, idx: idx}))
+                .filter(({skill, idx}) => battleState.enemyMana >= skill.cost && battleState.enemyCd[idx] === 0);
+            
+            if (availableSkills.length === 0) {
+                // Enemy basic attack or recover
+                if (Math.random() < 0.5) {
+                    // Basic attack
+                    let dmg = Math.min(30, Math.round(battleState.enemyData.strength * 0.4 + Math.random() * 5));
+                    // Check player dodge
+                    if (battleState.playerBuffs.dodge) {
+                        battleState.playerBuffs.dodge = 0;
+                        logMessage(`<span class="text-sky-400">[TOUR ${battleState.round}] Vous esquivez le coup de ${battleState.enemyData.name} !</span>`);
+                    } else {
+                        // Shield check
+                        if (battleState.playerBuffs.shield) {
+                            dmg = Math.round(dmg * 0.5);
+                            battleState.playerBuffs.shield = 0;
+                            logMessage(`<span class="text-blue-400">[BUFF] Votre Bouclier absorbe 50% !</span>`);
+                        }
+                        if (battleState.playerBuffs.ironwall) dmg = Math.round(dmg * 0.7);
+                        dmg = Math.max(1, dmg);
+                        battleState.playerHp -= dmg;
+                        logMessage(`<span class="text-cyber-pink">[TOUR ${battleState.round}] ${battleState.enemyData.name} lance un Coup de Poing ! ${dmg} dégâts.</span>`);
+                    }
+                } else {
+                    // Enemy recovers mana
+                    battleState.enemyMana = Math.min(battleState.enemyData.maxMana, battleState.enemyMana + 30);
+                    logMessage(`<span class="text-cyber-pink">[TOUR ${battleState.round}] ${battleState.enemyData.name} médite pour recharger sa Mana.</span>`);
+                }
+            } else {
+                // Pick random available skill
+                let chosen = availableSkills[Math.floor(Math.random() * availableSkills.length)];
+                let skill = chosen.skill;
+                let originalIdx = chosen.idx;
+
+                battleState.enemyMana -= skill.cost;
+                battleState.enemyCd[originalIdx] = skill.cdMax + 1;
+
+                // Check player dodge for attack skills
+                if (['damage', 'pierce', 'drain', 'sacrifice'].includes(skill.type) && battleState.playerBuffs.dodge) {
+                    battleState.playerBuffs.dodge = 0;
+                    logMessage(`<span class="text-sky-400">[TOUR ${battleState.round}] Vous esquivez ${skill.name} grâce à Téléportation !</span>`);
+                } else {
+                    battleState.isPlayerTurn = false; // For calcDamage context
+                    executeSkill(skill, false);
+                }
+            }
+
+            finishEnemyTurn();
+        }
+
+        function finishEnemyTurn() {
             // Tick down enemy cooldowns
             battleState.enemyCd = battleState.enemyCd.map(cd => Math.max(0, cd - 1));
+            // Tick enemy buffs
+            tickBuffs(battleState.enemyBuffs);
+
+            // Apply poison to player
+            applyPoison('player', battleState.playerPoison);
 
             if (battleState.playerHp <= 0) {
                 battleEnd(false);
@@ -1102,7 +1335,9 @@
             switchView('pantheon');
         }
 
-        // --- PANTHEON VIEW ---
+        // ==========================================
+        // PANTHEON VIEW
+        // ==========================================
         function renderPantheon() {
             const grid = document.getElementById('pantheon-grid');
             let pantheon = JSON.parse(localStorage.getItem('hybrid_pantheon') || '[]');
@@ -1114,6 +1349,10 @@
             }
 
             pantheon.forEach((char, index) => {
+                let skillsHtml = '';
+                if (char.skills && char.skills.length > 0) {
+                    skillsHtml = char.skills.map(s => `<span class="text-[10px] bg-cyber-neon/10 text-cyber-neon px-1.5 py-0.5 rounded">${s.name}</span>`).join(' ');
+                }
                 grid.innerHTML += `
                     <div class="bg-cyber-card border border-cyber-border rounded-xl p-5 shadow-lg flex flex-col justify-between space-y-4">
                         <div>
@@ -1123,17 +1362,21 @@
                             </div>
                             <p class="text-xs text-gray-400 mb-4">${char.universe}</p>
                             
-                            <div class="grid grid-cols-2 gap-2 text-xs font-mono bg-cyber-dark p-3 rounded-lg border border-cyber-border">
+                            <div class="grid grid-cols-2 gap-2 text-xs font-mono bg-cyber-dark p-3 rounded-lg border border-cyber-border mb-3">
                                 <div>Force : <span class="text-cyber-pink font-bold">${char.strength}</span></div>
                                 <div>Vitesse : <span class="text-cyber-neon font-bold">${char.speed}</span></div>
                                 <div>Défense : <span class="text-blue-400 font-bold">${char.defense}</span></div>
                                 <div>Intel (PM) : <span class="text-cyber-purple font-bold">${char.intel} (${char.maxMana})</span></div>
                             </div>
+                            <div class="flex flex-wrap gap-1">${skillsHtml}</div>
                         </div>
 
                         <div class="flex gap-2 pt-2">
                             <button onclick="loadCharToArena(${index})" class="flex-grow py-2 rounded-lg bg-cyber-neon/10 border border-cyber-neon/30 text-cyber-neon font-bold text-xs hover:bg-cyber-neon/20 transition">
                                 <i class="fa-solid fa-play mr-1"></i>Combattre
+                            </button>
+                            <button onclick="editCharSkills(${index})" class="px-3 py-2 rounded-lg bg-cyber-purple/10 border border-cyber-purple/30 text-cyber-purple hover:bg-cyber-purple/20 transition text-xs" title="Changer les compétences">
+                                <i class="fa-solid fa-wand-magic-sparkles"></i>
                             </button>
                             <button onclick="deleteChar(${index})" class="px-3 py-2 rounded-lg bg-red-500/10 border border-red-500/30 text-red-400 hover:bg-red-500/20 transition text-xs">
                                 <i class="fa-solid fa-trash"></i>
@@ -1147,8 +1390,38 @@
         function loadCharToArena(index) {
             let pantheon = JSON.parse(localStorage.getItem('hybrid_pantheon') || '[]');
             currentCharacter = pantheon[index];
+            // Ensure skills are proper objects from catalog
+            if (currentCharacter.skillIds) {
+                currentCharacter.skills = currentCharacter.skillIds.map(id => ({...SKILL_CATALOG[id]}));
+            }
             setupBattle();
             switchView('arena');
+        }
+
+        function editCharSkills(index) {
+            let pantheon = JSON.parse(localStorage.getItem('hybrid_pantheon') || '[]');
+            let char = pantheon[index];
+            
+            // Load this character into the studio
+            document.getElementById('char-name').value = char.name;
+            document.getElementById('char-universe').value = char.universe;
+            document.getElementById('char-archetype').value = char.archetype;
+            document.getElementById('stat-strength').value = char.strength;
+            document.getElementById('stat-speed').value = char.speed;
+            document.getElementById('stat-defense').value = char.defense;
+            document.getElementById('stat-intel').value = char.intel;
+            updateStats();
+
+            // Load selected skills
+            selectedSkillIds = char.skillIds ? [...char.skillIds] : [];
+
+            // Remove old entry (will be re-saved on validation)
+            pantheon.splice(index, 1);
+            localStorage.setItem('hybrid_pantheon', JSON.stringify(pantheon));
+            updatePantheonCount();
+
+            switchView('studio');
+            goToStep(3);
         }
 
         function deleteChar(index) {
